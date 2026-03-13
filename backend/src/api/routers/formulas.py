@@ -137,6 +137,12 @@ def preview_formula(request: FormulaPreviewRequest):
         sample_start = max(request.sample_start, 0)
         sample_end = sample_start + request.sample_size
         df = source_df.iloc[sample_start:sample_end].copy()
+        # reference_index is absolute in the dataset; preview runs on a sliced sample
+        preview_reference_index = (
+            request.reference_index - sample_start
+            if request.reference_index is not None
+            else None
+        )
         header_mapping = request.header_mapping or {}
 
         user_formulas = list(request.user_formulas) if request.user_formulas else []
@@ -208,8 +214,8 @@ def preview_formula(request: FormulaPreviewRequest):
         ]
 
         initial_results = (
-            {"manual_reference_index": request.reference_index}
-            if request.reference_index is not None
+            {"manual_reference_index": preview_reference_index}
+            if preview_reference_index is not None
             else {}
         )
 

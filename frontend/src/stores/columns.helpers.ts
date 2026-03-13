@@ -1,4 +1,6 @@
-import type { MatchingColumnGroup } from '@/types/domain';
+import type { MatchingColumnGroup } from '@/shared/types/domain';
+export { normalizeHexColor } from '@/utils/color';
+import { normalizeHexColor } from '@/utils/color';
 
 export const DEFAULT_MATCHING_COLORS = [
   '#60A5FA',
@@ -8,13 +10,6 @@ export const DEFAULT_MATCHING_COLORS = [
   '#F87171',
   '#22D3EE',
 ];
-
-export function normalizeHexColor(value: string | null | undefined): string | null {
-  if (!value) return null;
-  const cleaned = String(value).trim().replace(/^#/, '');
-  if (!/^[0-9a-fA-F]{6}$/.test(cleaned)) return null;
-  return `#${cleaned.toUpperCase()}`;
-}
 
 export function createGroupId(): string {
   if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {

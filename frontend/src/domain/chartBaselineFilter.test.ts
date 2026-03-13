@@ -2,6 +2,23 @@ import { describe, it, expect } from 'vitest'
 import { filterRowsForChartBaseline } from './chartBaselineFilter'
 
 describe('filterRowsForChartBaseline', () => {
+  it('returns empty array for empty rows input', () => {
+    const chart = {
+      chartType: 'area' as const,
+      xColumn: 'x',
+      yColumns: ['y1'],
+      areaSpec: {
+        mode: 'positive' as const,
+        baseline: 0,
+        baselineAxis: 'y' as const,
+        xColumn: 'x',
+        yColumn: 'y1'
+      }
+    }
+    const result = filterRowsForChartBaseline([], chart)
+    expect(result).toEqual([])
+  })
+
   const sampleRows = [
     { x: 1, y1: 10, y2: 20 },
     { x: 2, y1: 15, y2: 25 },

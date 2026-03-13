@@ -39,21 +39,6 @@
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
-  transition: background-color var(--duration-fast) var(--ease-in-out);
-}
-
-.cfg-section-header:hover {
-  background: color-mix(in srgb, var(--surface-hover) 60%, transparent);
-}
-
-.cfg-review-section .cfg-section-header:hover,
-.cfg-review-section .cfg-formula-header:hover {
-  background: transparent;
-}
-
-.cfg-review-section .ui-chart-card-header:hover {
-  border-color: color-mix(in srgb, var(--surface-border) 82%, transparent);
-  background: transparent;
 }
 
 .cfg-section-header .ui-action-icon-btn {
@@ -354,7 +339,8 @@
 .cfg-chart-color-swatch {
   width: 1.15rem;
   height: 1.15rem;
-  border-radius: var(--radius-sm);
+  /* Rounded square; avoid perfect-circle border that resembles window close controls */
+  border-radius: var(--radius-xs, var(--radius-sm));
   border: 1px solid color-mix(in srgb, var(--surface-border) 88%, transparent);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--surface-card) 45%, transparent);
 }
@@ -583,11 +569,6 @@
   align-self: stretch;
 }
 
-.cfg-list-section .ui-section-header--collapsible:hover,
-.cfg-review-section .ui-section-header--collapsible:hover {
-  background: transparent;
-}
-
 .cfg-section-intro {
   margin: 0 0 var(--spacing-sm);
 }
@@ -736,6 +717,59 @@
 /* Right-aligned column (e.g. Last Updated) */
 .cfg-library-table .cfg-table-cell-right {
   text-align: right;
+}
+
+/* Paginator - only .p-datatable-paginator-bottom as bottom container */
+.cfg-library-table--compact-paginator .p-datatable-paginator-bottom {
+  padding: 0 !important;
+  min-height: 2.5rem !important;
+  gap: 0.35rem !important;
+  background: var(--cfg-table-header-bg) !important;
+  border-top: 1px solid var(--cfg-table-header-border) !important;
+  transition: none !important;
+  box-shadow: none !important;
+}
+
+.cfg-library-table--compact-paginator .p-datatable-paginator-bottom .p-paginator {
+  padding: 0 !important;
+  min-height: inherit !important;
+  gap: inherit !important;
+}
+
+.cfg-library-table--compact-paginator .p-datatable-paginator-bottom .p-paginator-first,
+.cfg-library-table--compact-paginator .p-datatable-paginator-bottom .p-paginator-prev,
+.cfg-library-table--compact-paginator .p-datatable-paginator-bottom .p-paginator-next,
+.cfg-library-table--compact-paginator .p-datatable-paginator-bottom .p-paginator-last {
+  min-width: 1.5rem !important;
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+  padding: 0 !important;
+  transition: none !important;
+  box-shadow: none !important;
+  border-radius: 4px !important;
+}
+
+.cfg-library-table--compact-paginator .p-datatable-paginator-bottom .p-paginator-page,
+.cfg-library-table--compact-paginator .p-datatable-paginator-bottom .p-paginator-pages button {
+  min-width: 1.5rem !important;
+  height: 1.5rem !important;
+  padding: 0 0.4rem !important;
+  font-size: var(--font-size-sm) !important;
+  line-height: 1.5rem !important;
+  transition: none !important;
+  box-shadow: none !important;
+  border-radius: 4px !important;
+}
+
+.cfg-library-table--compact-paginator .p-datatable-paginator-bottom .pi {
+  font-size: 0.8rem !important;
+}
+
+.cfg-library-table--compact-paginator .p-datatable-paginator-bottom .p-paginator-rpp-dropdown,
+.cfg-library-table--compact-paginator .p-datatable-paginator-bottom .p-select {
+  min-height: 1.5rem !important;
+  height: 1.5rem !important;
+  font-size: var(--font-size-sm) !important;
 }
 
 .cfg-library-mobile-list {

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, shallowRef, computed } from 'vue';
-import type { Dataset, DatasetMetadata, ColumnDef } from '@/types/domain';
-import type { ProcessRow, UploadResponse } from '@/types/api';
+import type { Dataset, DatasetMetadata, ColumnDef } from '@/shared/types/domain';
+import type { ProcessRow, UploadResponse } from '@/shared/types/api';
 
 export const useDatasetStore = defineStore('dataset', () => {
   // State

@@ -3,7 +3,7 @@ import {
   buildConfigDependencyModel,
   extractFormulaReferences,
 } from './configDependency';
-import type { AnalysisConfig } from '@/types/domain';
+import type { AnalysisConfig } from '@/shared/types/domain';
 
 function createConfig(overrides?: Partial<AnalysisConfig>): AnalysisConfig {
   return {

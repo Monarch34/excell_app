@@ -3,7 +3,7 @@ import {
   buildConfigDiff,
   buildLiveConfigSnapshot,
 } from './configDiff';
-import type { AnalysisConfig } from '@/types/domain';
+import type { AnalysisConfig, ChartSpec, DerivedColumnDef, Parameter } from '@/shared/types/domain';
 
 function createConfig(overrides?: Partial<AnalysisConfig>): AnalysisConfig {
   return {
@@ -24,6 +24,65 @@ function createConfig(overrides?: Partial<AnalysisConfig>): AnalysisConfig {
 }
 
 describe('configDiff', () => {
+  it('handles empty arrays for all fields in snapshot and config', () => {
+    const snapshot = buildLiveConfigSnapshot({
+      selectedColumns: [],
+      parameters: [],
+      derivedColumns: [],
+      charts: [],
+    });
+
+    const target = createConfig({
+      selectedColumns: [],
+      parameters: [],
+      derivedColumns: [],
+      charts: [],
+    });
+
+    const diff = buildConfigDiff(snapshot, target);
+    expect(diff.hasChanges).toBe(false);
+    expect(diff.counts.current.selectedColumns).toBe(0);
+    expect(diff.counts.target.selectedColumns).toBe(0);
+  });
+
+  it('handles undefined/missing optional arrays on target config', () => {
+    const snapshot = buildLiveConfigSnapshot({
+      selectedColumns: ['A'],
+      parameters: [],
+      derivedColumns: [],
+      charts: [],
+    });
+
+    const target = {
+      ...createConfig(),
+      selectedColumns: undefined as unknown as string[],
+      parameters: undefined as unknown as Parameter[],
+      derivedColumns: undefined as unknown as DerivedColumnDef[],
+      charts: undefined as unknown as ChartSpec[],
+    };
+
+    const diff = buildConfigDiff(snapshot, target);
+    expect(diff.selectedColumns.removed).toEqual(['A']);
+    expect(diff.counts.target.selectedColumns).toBe(0);
+  });
+
+  it('filters blank-name parameters from snapshot', () => {
+    const snapshot = buildLiveConfigSnapshot({
+      selectedColumns: [],
+      parameters: [
+        { name: '', value: 1, unit: '' },
+        { name: '  ', value: 2, unit: '' },
+        { name: 'valid', value: 3, unit: 'mm' },
+      ],
+      derivedColumns: [],
+      charts: [],
+    });
+
+    expect(snapshot.parameters).toHaveLength(1);
+    expect(snapshot.parameters[0].name).toBe('valid');
+  });
+
+
   it('returns no changes when current snapshot matches target config', () => {
     const config = createConfig({
       derivedColumns: [{ id: 'dc-001', name: 'C', formula: '', unit: '', description: '', dependencies: [], enabled: true, type: 'column' }],

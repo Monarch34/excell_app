@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import type { Parameter } from '@/types/domain';
+import type { Parameter } from '@/shared/types/domain';
 
 /**
  * Parameters store - manages user-defined parameters.

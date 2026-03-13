@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
-import type { ColumnDef, MatchingColumnGroup } from '@/types/domain';
+import type { ColumnDef, MatchingColumnGroup } from '@/shared/types/domain';
 import {
   DEFAULT_MATCHING_COLORS,
   clampSeparatorIndices,

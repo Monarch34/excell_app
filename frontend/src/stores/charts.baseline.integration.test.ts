@@ -3,8 +3,8 @@ import { createPinia, setActivePinia } from 'pinia';
 import { describe, expect, it, beforeEach } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { useChartsStore } from './charts';
-import ChartBaselineDialog from '@/components/charts/sections/ChartBaselineDialog.vue';
-import type { BaselineSpec } from '@/types/domain';
+import ChartBaselineDialog from '@/features/charts/sections/ChartBaselineDialog.vue';
+import type { BaselineSpec } from '@/shared/types/domain';
 
 describe('charts baseline integration', () => {
   beforeEach(() => {

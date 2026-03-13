@@ -56,6 +56,12 @@
   height: 100%;
 }
 
+/* System-wide: no border, no hover on collapsible section headers */
+.ui-section-header,
+.ui-section-header--collapsible {
+  border: none !important;
+}
+
 .ui-section-header {
   display: flex;
   align-items: center;
@@ -70,11 +76,6 @@
   padding: 0.15rem 0.2rem;
   margin-left: -0.2rem;
   margin-right: -0.2rem;
-  transition: background-color var(--duration-fast) var(--ease-in-out);
-}
-
-.ui-section-header--collapsible:hover {
-  background: color-mix(in srgb, var(--surface-hover) 65%, transparent);
 }
 
 .ui-section-header--collapsed {
@@ -177,5 +178,61 @@
   margin: 0;
   color: var(--text-color-secondary);
   line-height: var(--line-height-normal);
+}
+
+/* ── Shared pill / chip utilities ───────────────────────────────────────────── */
+.ui-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  padding: 0.1rem 0.45rem;
+  border-radius: var(--radius-full);
+  border: 1px solid transparent;
+  background: color-mix(in srgb, var(--surface-ground) 80%, var(--surface-card));
+  color: var(--text-color-secondary);
+  white-space: nowrap;
+}
+
+.ui-pill--primary {
+  border-color: color-mix(in srgb, var(--primary-500) 40%, var(--surface-border));
+  background: color-mix(in srgb, var(--primary-500) 10%, var(--surface-card));
+  color: var(--primary-500);
+}
+
+.ui-pill--muted {
+  border-color: color-mix(in srgb, var(--surface-border) 65%, transparent);
+  background: color-mix(in srgb, var(--surface-ground) 80%, var(--surface-card));
+  color: var(--text-color-secondary);
+}
+
+.ui-pill--bold {
+  font-weight: var(--font-weight-bold);
+}
+
+.ui-pill--uppercase {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.65rem;
+}
+
+/* Inline chip for metadata (date, hint text) */
+.ui-inline-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: var(--font-size-xs);
+  color: var(--text-color-secondary);
+}
+
+/* Card-like surface for grids of items (params, columns, charts) */
+.ui-surface-card-item {
+  display: grid;
+  gap: var(--spacing-sm);
+  padding: 0.72rem 0.82rem;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--surface-section) 60%, var(--surface-card));
+  border: 1px solid color-mix(in srgb, var(--surface-border) 60%, transparent);
 }
 

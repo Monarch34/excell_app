@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { createPinia, setActivePinia } from 'pinia';
 import { useColumnsStore } from '@/stores/columns';
-import type { MatchingColumnGroup } from '@/types/domain';
+import type { MatchingColumnGroup } from '@/shared/types/domain';
 
 describe('columns matching groups', () => {
   beforeEach(() => {

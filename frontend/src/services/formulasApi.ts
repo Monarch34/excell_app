@@ -4,7 +4,7 @@ import type {
   FormulaPreviewResponse,
   FormulaValidateRequest,
   FormulaValidateResponse,
-} from '@/types/api';
+} from '@/shared/types/api';
 import { postData } from '@/services/httpClient';
 
 type FormulaPreviewResponseWire = Omit<FormulaPreviewResponse, 'errorCode'> & {

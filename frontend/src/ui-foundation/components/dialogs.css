@@ -17,3 +17,102 @@
   border-bottom: 1px solid var(--surface-border);
 }
 
+/* Dialog footer actions (used instead of PrimeVue Button for consistent, non-circular controls) */
+.ui-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.ui-dialog-btn {
+  min-height: 2.25rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  background: transparent;
+  font: inherit;
+  color: var(--text-color);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-in-out),
+    border-color var(--duration-fast) var(--ease-in-out),
+    color var(--duration-fast) var(--ease-in-out);
+}
+
+.ui-dialog-btn--secondary {
+  border-color: color-mix(in srgb, var(--surface-border) 80%, transparent);
+  color: var(--text-color-secondary);
+}
+
+.ui-dialog-btn--secondary:hover:enabled {
+  border-color: var(--ui-hover-border);
+  background: color-mix(in srgb, var(--surface-hover) 70%, var(--surface-card));
+  color: var(--text-color);
+}
+
+.ui-dialog-btn--primary {
+  border-color: transparent;
+  background: var(--primary-500);
+  color: var(--text-color-inverse);
+}
+
+.ui-dialog-btn--primary:hover:enabled {
+  background: var(--primary-600);
+}
+
+.ui-dialog-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* Normalize PrimeVue dialog header icons globally so they do not render circular borders/halos in any theme */
+.p-dialog .p-dialog-header-icon {
+  border-radius: var(--radius-md) !important;
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  color: var(--text-color-secondary) !important;
+}
+
+.p-dialog .p-dialog-header-icon:focus,
+.p-dialog .p-dialog-header-icon:focus-visible,
+.p-dialog .p-dialog-header-icon:active {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Restore a subtle hover state without circular borders */
+.p-dialog .p-dialog-header-icon:hover {
+  background: color-mix(in srgb, var(--surface-hover) 70%, var(--surface-card)) !important;
+  color: var(--text-color) !important;
+}
+
+/* Ensure header action buttons inside p-dialog-header-actions never show circular borders/focus rings */
+.p-dialog .p-dialog-header-actions button,
+.p-dialog .p-dialog-header-actions .p-button {
+  border-radius: var(--radius-md) !important;
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  color: var(--text-color-secondary) !important;
+}
+
+.p-dialog .p-dialog-header-actions button:focus,
+.p-dialog .p-dialog-header-actions button:focus-visible,
+.p-dialog .p-dialog-header-actions button:active,
+.p-dialog .p-dialog-header-actions .p-button:focus,
+.p-dialog .p-dialog-header-actions .p-button:focus-visible,
+.p-dialog .p-dialog-header-actions .p-button:active {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.p-dialog .p-dialog-header-actions button:hover:enabled,
+.p-dialog .p-dialog-header-actions .p-button:hover:enabled {
+  background: color-mix(in srgb, var(--surface-hover) 70%, var(--surface-card)) !important;
+  color: var(--text-color) !important;
+}
+

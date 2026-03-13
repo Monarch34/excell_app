@@ -1,7 +1,7 @@
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
-import type { AnalysisConfig } from '@/types/domain';
+import type { AnalysisConfig } from '@/shared/types/domain';
 import { fromJSON, validateConfig, downloadConfig } from '@/domain/configSerializer';
 import { useWorkspaceLifecycle } from '@/composables/useWorkspaceLifecycle';
 import { useDatasetStore } from '@/stores/dataset';

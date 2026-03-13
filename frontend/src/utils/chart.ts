@@ -1,4 +1,4 @@
-import type { ChartSpec } from '@/types/domain';
+import type { ChartSpec } from '@/shared/types/domain';
 
 /** Returns true when chart has type, x/y columns, and those columns exist in the data. */
 export function chartDataReady(

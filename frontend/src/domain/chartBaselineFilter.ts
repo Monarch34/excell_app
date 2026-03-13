@@ -1,4 +1,4 @@
-import type { ChartSpec } from '@/types/domain';
+import type { ChartSpec } from '@/shared/types/domain';
 
 export function filterRowsForChartBaseline(
   rows: Record<string, unknown>[],

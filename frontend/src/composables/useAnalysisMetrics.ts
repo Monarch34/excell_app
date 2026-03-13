@@ -1,11 +1,11 @@
-﻿import { computed, onBeforeUnmount, ref, watch } from 'vue';
+import { computed, onBeforeUnmount, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useDatasetStore } from '@/stores/dataset';
 import { useChartsStore } from '@/stores/charts';
 import { useAnalysisStore } from '@/stores/analysis';
 import { calculateMetrics as apiCalculateMetrics } from '@/services/chartsApi';
-import type { AnalysisMetric, ChartSpec } from '@/types/domain';
-import type { ChartMetrics, MetricsChartSpec } from '@/types/api';
+import type { AnalysisMetric, ChartSpec } from '@/shared/types/domain';
+import type { ChartMetrics, MetricsChartSpec } from '@/shared/types/api';
 import { logError } from '@/utils/errors';
 
 const REQUEST_DEBOUNCE_MS = 300;

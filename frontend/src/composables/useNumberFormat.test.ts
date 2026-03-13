@@ -50,4 +50,35 @@ describe('useNumberFormat', () => {
     expect(formatValue(0.0012500000000000002)).toBe('0.00125');
     expect(formatValue(0.001398210290827741)).toBe('0.001398210290827741');
   });
+
+  it('formats values in scientific (exponential) mode', () => {
+    const { formatValue } = useNumberFormat('scientific');
+    expect(formatValue(12345)).toBe('1.2345E+4');
+    expect(formatValue(-0.005)).toBe('-5E-3');
+    expect(formatValue(1)).toBe('1E+0');
+  });
+
+  it('parses numeric strings in scientific mode', () => {
+    const { formatValue } = useNumberFormat('scientific');
+    expect(formatValue('42.5')).toBe('4.25E+1');
+    expect(formatValue('not-a-number')).toBe('not-a-number');
+  });
+
+  it('returns zero as "0" in all modes', () => {
+    for (const m of ['fixed', 'compact', 'scientific'] as const) {
+      const { formatValue } = useNumberFormat(m);
+      expect(formatValue(0)).toBe('0');
+    }
+  });
+
+  it('returns N/A for empty string', () => {
+    const { formatValue } = useNumberFormat('fixed');
+    expect(formatValue('')).toBe('N/A');
+  });
+
+  it('formats booleans as true/false strings', () => {
+    const { formatValue } = useNumberFormat('fixed');
+    expect(formatValue(true as unknown as number)).toBe('true');
+    expect(formatValue(false as unknown as number)).toBe('false');
+  });
 });

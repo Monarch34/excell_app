@@ -344,6 +344,24 @@ class TestFormulaPreviewReferenceIndex:
         )
         assert resp.status_code == 422
 
+    def test_reference_index_is_rebased_to_preview_sample(self, client):
+        dataset_id = upload_dataset_id(client, MINIMAL_ROWS)
+        resp = client.post(
+            "/api/v3/formulas/preview",
+            json={
+                "dataset_id": dataset_id,
+                "formula": "[Load] - REF([Load])",
+                "parameters": {},
+                "sample_start": 1,
+                "sample_size": 2,
+                "reference_index": 1,
+            },
+        )
+        assert resp.status_code == 200, resp.text
+        body = resp.json()
+        assert body["success"] is True
+        assert body["values"] == pytest.approx([0.0, 100.0])
+
 
 class TestReportsXlsx:
     def test_minimal_request_returns_200(self, client):

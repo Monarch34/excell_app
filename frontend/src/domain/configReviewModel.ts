@@ -1,4 +1,5 @@
-import type { AnalysisConfig, MatchingColumnGroup } from '@/types/domain';
+import type { AnalysisConfig, MatchingColumnGroup } from '@/shared/types/domain';
+import { normalizeColorToHex } from '@/utils/color';
 
 const FALLBACK_SEPARATOR_COLOR = '#2F855A';
 
@@ -212,45 +213,3 @@ function formatColorValue(color: string | null): string {
   return `${normalized} (${color})`;
 }
 
-function normalizeColorToHex(color: string | null | undefined): string | null {
-  if (!color) return null;
-  const value = color.trim();
-  if (!value) return null;
-
-  const hexMatch = value.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i);
-  if (hexMatch) {
-    const hex = hexMatch[1];
-    if (hex.length === 3) {
-      return `#${hex
-        .split('')
-        .map((part) => `${part}${part}`)
-        .join('')
-        .toUpperCase()}`;
-    }
-    return `#${hex.toUpperCase()}`;
-  }
-
-  if (/^rgba?\(/i.test(value)) {
-    const channels = value.match(/[\d.]+/g);
-    if (!channels || channels.length < 3) return null;
-    const [r, g, b] = channels.slice(0, 3).map((channel) => {
-      const numeric = Number(channel);
-      if (Number.isNaN(numeric)) return 0;
-      return Math.max(0, Math.min(255, Math.round(numeric)));
-    });
-    const base = `#${toHex(r)}${toHex(g)}${toHex(b)}`;
-    if (channels.length < 4) return base;
-
-    const alphaNumber = Number(channels[3]);
-    if (Number.isNaN(alphaNumber)) return base;
-    const alpha = Math.max(0, Math.min(1, alphaNumber));
-    if (alpha >= 1) return base;
-    return `${base}${toHex(Math.round(alpha * 255))}`;
-  }
-
-  return null;
-}
-
-function toHex(channel: number): string {
-  return channel.toString(16).padStart(2, '0').toUpperCase();
-}

@@ -1,29 +1,27 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { usePreferencesStore } from '@/stores/preferences';
 import { storeToRefs } from 'pinia';
 import InputSwitch from 'primevue/inputswitch';
-import AppSurfacePanel from '@/components/ui/AppSurfacePanel.vue';
+import AppSurfacePanel from '@/shared/components/ui/AppSurfacePanel.vue';
+import AppPageHeader from '@/shared/components/ui/AppPageHeader.vue';
 
 const preferencesStore = usePreferencesStore();
 const { isDarkMode } = storeToRefs(preferencesStore);
-
-const activeThemeLabel = computed(() => (isDarkMode.value ? 'Dark' : 'Light'));
-const nextThemeLabel = computed(() => (isDarkMode.value ? 'Light' : 'Dark'));
 </script>
 
 <template>
-  <div class="ui-page-shell ui-page-shell--narrow step-shell fade-in">
-    <div class="ui-page-header ui-settings-header">
-      <div class="ui-settings-header-copy">
-        <h1 class="ui-page-title ui-page-title--lg">Settings</h1>
-        <p class="ui-page-subtitle">Project-wide display and behavior preferences.</p>
-      </div>
-      <div class="ui-settings-sync-indicator" aria-label="Background polling is active while online">
-        <i class="pi pi-sync" />
+  <main class="ui-page-shell ui-page-shell--narrow step-shell fade-in" aria-labelledby="settings-heading">
+    <AppPageHeader
+      icon="pi-cog"
+      title="Settings"
+      subtitle="Project-wide display and behavior preferences."
+      headingId="settings-heading"
+    >
+      <div class="ui-settings-sync-indicator">
+        <i class="pi pi-sync" aria-hidden="true" />
         <span>Background polling active while online</span>
       </div>
-    </div>
+    </AppPageHeader>
 
     <div class="ui-settings-layout">
       <AppSurfacePanel as="section" class="ui-settings-card">
@@ -42,7 +40,7 @@ const nextThemeLabel = computed(() => (isDarkMode.value ? 'Light' : 'Dark'));
             <div class="ui-settings-item-copy">
               <label class="ui-settings-item-label" for="settings-dark-mode">Dark Mode</label>
               <p class="ui-settings-item-help">
-                Current theme: {{ activeThemeLabel }}. Toggle to switch to {{ nextThemeLabel }}.
+                Current theme: {{ isDarkMode ? 'Dark' : 'Light' }}. Toggle to switch to {{ isDarkMode ? 'Light' : 'Dark' }}.
               </p>
             </div>
             <InputSwitch v-model="isDarkMode" input-id="settings-dark-mode" />
@@ -97,5 +95,5 @@ const nextThemeLabel = computed(() => (isDarkMode.value ? 'Light' : 'Dark'));
         </ul>
       </AppSurfacePanel>
     </div>
-  </div>
+  </main>
 </template>

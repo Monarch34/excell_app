@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import type { ProcessResultValue } from '@/types/api';
+import type { ProcessResultValue } from '@/shared/types/api';
 
 export type NumberFormatMode = 'compact' | 'fixed' | 'scientific';
 

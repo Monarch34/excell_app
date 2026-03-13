@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { computed, ref, shallowRef } from 'vue';
-import type { ProcessResults, ProcessRow } from '@/types/api';
+import type { ProcessResults, ProcessRow } from '@/shared/types/api';
 
 /**
  * Analysis store - manages processed data and processing run state.

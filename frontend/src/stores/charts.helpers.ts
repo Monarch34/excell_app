@@ -1,4 +1,4 @@
-import type { BaselineSpec, ChartSpec, ChartState } from '@/types/domain';
+import type { BaselineSpec, ChartSpec, ChartState } from '@/shared/types/domain';
 
 export const CHART_UI_STATE_STORAGE_KEY = 'charts.ui.state';
 export const MAX_CHARTS = 10;

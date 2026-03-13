@@ -14,7 +14,7 @@ import {
 import { CONFIG_VERSION } from '@/constants/config';
 import { toUserMessage } from '@/utils/errors';
 import type { SavedConfigDetail, SavedConfigSummary } from '@/services/configsApi';
-import type { AnalysisConfig } from '@/types/domain';
+import type { AnalysisConfig } from '@/shared/types/domain';
 
 export function useConfigLibraryManager() {
   const router = useRouter();

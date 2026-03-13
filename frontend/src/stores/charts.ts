@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
-import type { AreaMode, AreaSpec, ChartSpec, ChartState } from '@/types/domain';
+import type { AreaMode, AreaSpec, ChartSpec, ChartState } from '@/shared/types/domain';
 import {
   CHART_UI_STATE_STORAGE_KEY,
   MAX_CHARTS,
@@ -47,6 +47,9 @@ export const useChartsStore = defineStore('charts', () => {
   const canAdd = computed(() => charts.value.length < MAX_CHARTS);
   const chartsWithArea = computed(() =>
     charts.value.filter((chart) => chart.chartType === 'area' && chart.areaSpec !== null)
+  );
+  const sortedCharts = computed(() =>
+    [...charts.value].sort((a, b) => b.id.localeCompare(a.id))
   );
 
   function addChart(partial?: Partial<ChartSpec>): string | null {
@@ -188,6 +191,7 @@ export const useChartsStore = defineStore('charts', () => {
     count,
     canAdd,
     chartsWithArea,
+    sortedCharts,
     addChart,
     updateChart,
     removeChart,

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { MatchingColumnGroup } from '@/types/domain';
+import type { MatchingColumnGroup } from '@/shared/types/domain';
 import {
   clampSeparatorIndices,
   normalizeHexColor,

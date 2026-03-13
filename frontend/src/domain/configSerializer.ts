@@ -2,7 +2,7 @@
  * Config serialization, deserialization, and validation.
  */
 
-import type { AnalysisConfig, ValidationResult, ValidationError } from '@/types/domain';
+import type { AnalysisConfig, ValidationResult, ValidationError } from '@/shared/types/domain';
 import { CONFIG_VERSION } from '@/constants/config';
 
 const CURRENT_VERSION = CONFIG_VERSION;

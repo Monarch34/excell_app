@@ -6,10 +6,10 @@
 }
 
 .ui-chart-card-header {
-  border: 1px solid color-mix(in srgb, var(--surface-border) 82%, transparent);
+  border: none;
   border-radius: var(--radius-md);
   padding: 0.55rem 0.7rem;
-  transition: border-color var(--duration-fast) var(--ease-in-out), background-color var(--duration-fast) var(--ease-in-out);
+  cursor: pointer;
 }
 
 .ui-chart-card-toggle {
@@ -35,9 +35,9 @@
   color: var(--text-color-secondary);
 }
 
-.ui-chart-card-header:hover {
-  border-color: var(--ui-hover-border);
-  background: color-mix(in srgb, var(--surface-hover) 70%, var(--surface-card));
+.ui-chart-card-header-row,
+.ui-chart-card-header--collapsed {
+  border: none;
 }
 
 .ui-chart-card-header-row,

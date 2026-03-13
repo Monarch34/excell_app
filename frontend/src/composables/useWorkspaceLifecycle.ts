@@ -6,8 +6,8 @@ import { useDerivedColumnsStore } from '@/stores/derivedColumns';
 import { useChartsStore } from '@/stores/charts';
 import { useAnalysisStore } from '@/stores/analysis';
 import { useConfigManagerStore } from '@/stores/configManager';
-import type { AnalysisConfig } from '@/types/domain';
-import type { UploadResponse } from '@/types/api';
+import type { AnalysisConfig } from '@/shared/types/domain';
+import type { UploadResponse } from '@/shared/types/api';
 
 /**
  * Central workspace lifecycle composable.

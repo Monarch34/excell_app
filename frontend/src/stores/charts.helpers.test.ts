@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { ChartSpec } from '@/types/domain';
+import type { ChartSpec } from '@/shared/types/domain';
 import {
   computeNextIdSeed,
   createChartId,
@@ -81,5 +81,40 @@ describe('charts.helpers', () => {
     ] as ChartSpec[];
     expect(computeNextIdSeed(charts, 1)).toBe(20);
     expect(computeNextIdSeed(charts, 25)).toBe(25);
+  });
+
+  it('returns empty state for null localStorage input', () => {
+    const state = readChartUiState(null);
+    expect(state).toEqual({});
+  });
+
+  it('returns empty state for malformed JSON', () => {
+    const state = readChartUiState('not valid json{{{');
+    expect(state).toEqual({});
+  });
+
+  it('returns empty state for empty string', () => {
+    const state = readChartUiState('');
+    expect(state).toEqual({});
+  });
+
+  it('normalizes charts with duplicate ids by appending suffix', () => {
+    const input: ChartSpec[] = [
+      { id: 'chart-001', title: 'A', xColumn: 'X', yColumns: ['Y'], chartType: 'line', areaSpec: null, baselineSpec: null, lineColor: null, fillColor: null, fillOpacity: null },
+      { id: 'chart-001', title: 'B', xColumn: 'X', yColumns: ['Y'], chartType: 'line', areaSpec: null, baselineSpec: null, lineColor: null, fillColor: null, fillOpacity: null },
+    ];
+
+    const normalized = normalizeChartConfig(input, () => 'chart-999');
+    expect(normalized[0].id).toBe('chart-001');
+    expect(normalized[1].id).toBe('chart-001-2');
+  });
+
+  it('normalizes empty chart config array', () => {
+    const normalized = normalizeChartConfig([], () => 'chart-001');
+    expect(normalized).toEqual([]);
+  });
+
+  it('returns seed unchanged when no charts exist', () => {
+    expect(computeNextIdSeed([], 5)).toBe(5);
   });
 });

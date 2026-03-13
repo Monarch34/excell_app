@@ -1,5 +1,5 @@
 import axios, { AxiosHeaders, type AxiosError, type AxiosInstance, type AxiosRequestConfig } from 'axios';
-import type { ApiError } from '@/types/api';
+import type { ApiError } from '@/shared/types/api';
 import { toUserMessage, normalizeErrorDetail } from '@/utils/errors';
 
 function resolveApiBaseUrl(): string {

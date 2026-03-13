@@ -509,23 +509,26 @@ def test_export_v2_includes_derived_columns_with_order_and_group_color():
 
     data_ws = wb["Data"]
 
-    # Expect order: X, XY_sum, <separator>, Y
-    assert data_ws.cell(row=1, column=1).value == "X"
-    assert data_ws.cell(row=1, column=2).value == "XY_sum"
-    assert data_ws.cell(row=1, column=3).value in ("", None)
-    assert data_ws.cell(row=1, column=4).value == "Y"
+    # Row 1 is report title (project_name). Headers are on row 2.
+    assert data_ws.cell(row=1, column=1).value == "Export Derived Test"
 
-    # Derived column values should be present and computed.
-    assert data_ws.cell(row=3, column=2).value == pytest.approx(3.0)
-    assert data_ws.cell(row=4, column=2).value == pytest.approx(5.0)
-    assert data_ws.cell(row=5, column=2).value == pytest.approx(8.0)
+    # Expect order: X, XY_sum, <separator>, Y in header row.
+    assert data_ws.cell(row=2, column=1).value == "X"
+    assert data_ws.cell(row=2, column=2).value == "XY_sum"
+    assert data_ws.cell(row=2, column=3).value in ("", None)
+    assert data_ws.cell(row=2, column=4).value == "Y"
+
+    # Derived column values should be present and computed (data starts row 4).
+    assert data_ws.cell(row=4, column=2).value == pytest.approx(3.0)
+    assert data_ws.cell(row=5, column=2).value == pytest.approx(5.0)
+    assert data_ws.cell(row=6, column=2).value == pytest.approx(8.0)
 
     # Group color applies to units/data (not header); openpyxl stores ARGB.
-    unit_fill = data_ws.cell(row=2, column=2).fill.start_color.index or ""
+    unit_fill = data_ws.cell(row=3, column=2).fill.start_color.index or ""
     assert str(unit_fill).upper().endswith("AABBCC")
 
-    # User-selected separator color should be applied to separator column.
-    sep_fill = data_ws.cell(row=1, column=3).fill.start_color.index or ""
+    # User-selected separator color should be applied to separator column (units row).
+    sep_fill = data_ws.cell(row=3, column=3).fill.start_color.index or ""
     assert str(sep_fill).upper().endswith("FF00AA")
 
     charts_ws = wb["Charts"]
@@ -570,8 +573,9 @@ def test_export_v2_applies_matching_group_colors_without_column_colors_map():
     data_ws = wb["Data"]
 
     # Header stays default blue; units/data should be group colored.
-    unit_fill = data_ws.cell(row=2, column=1).fill.start_color.index or ""
-    data_fill = data_ws.cell(row=3, column=1).fill.start_color.index or ""
+    # Units now on row 3, data starts row 4.
+    unit_fill = data_ws.cell(row=3, column=1).fill.start_color.index or ""
+    data_fill = data_ws.cell(row=4, column=1).fill.start_color.index or ""
     assert str(unit_fill).upper().endswith("55AAEE")
     assert str(data_fill).upper().endswith("55AAEE")
 
@@ -627,10 +631,13 @@ def test_export_v2_resolves_formula_display_label_aliases():
     wb = load_workbook(BytesIO(response.content))
     data_ws = wb["Data"]
 
-    assert data_ws.cell(row=1, column=1).value == "True Stress"
-    assert data_ws.cell(row=1, column=2).value == "DoubleStress"
-    assert data_ws.cell(row=3, column=2).value == pytest.approx(4.0)
-    assert data_ws.cell(row=4, column=2).value == pytest.approx(7.0)
+    # Row 1 is report title (project_name). Headers on row 2.
+    assert data_ws.cell(row=1, column=1).value == "Export Alias Formula Test"
+    assert data_ws.cell(row=2, column=1).value == "True Stress"
+    assert data_ws.cell(row=2, column=2).value == "DoubleStress"
+    # Data starts at row 4.
+    assert data_ws.cell(row=4, column=2).value == pytest.approx(4.0)
+    assert data_ws.cell(row=5, column=2).value == pytest.approx(7.0)
 
 
 def test_export_v2_keeps_request_metrics_when_charts_are_present():
@@ -676,8 +683,14 @@ def test_export_v2_keeps_request_metrics_when_charts_are_present():
     wb = load_workbook(BytesIO(response.content))
     analysis_ws = wb["Analysis"]
 
-    assert analysis_ws.cell(row=2, column=2).value == "A0"
-    assert analysis_ws.cell(row=2, column=3).value == pytest.approx(12.5)
+    # Find A0 metric in the Analysis sheet (layout is sectioned, so search by content)
+    a0_found = False
+    for r in range(1, analysis_ws.max_row + 1):
+        if analysis_ws.cell(row=r, column=2).value == "A0":
+            assert analysis_ws.cell(row=r, column=3).value == pytest.approx(12.5)
+            a0_found = True
+            break
+    assert a0_found, "A0 metric not found in Analysis sheet"
 
 
 def test_export_v2_includes_derived_parameter_metrics_without_frontend_metrics():
@@ -719,10 +732,19 @@ def test_export_v2_includes_derived_parameter_metrics_without_frontend_metrics()
     wb = load_workbook(BytesIO(response.content))
     analysis_ws = wb["Analysis"]
 
-    assert analysis_ws.cell(row=2, column=2).value == "A0"
-    assert analysis_ws.cell(row=2, column=3).value == pytest.approx(10.0)
-    assert analysis_ws.cell(row=7, column=1).value == "A0"
-    assert analysis_ws.cell(row=7, column=2).value == pytest.approx(10.0)
+    # A0 should appear as both a metric and a parameter (derived parameter).
+    # Search by content since the layout is sectioned.
+    a0_metric_found = False
+    a0_param_found = False
+    for r in range(1, analysis_ws.max_row + 1):
+        if analysis_ws.cell(row=r, column=2).value == "A0":
+            assert analysis_ws.cell(row=r, column=3).value == pytest.approx(10.0)
+            a0_metric_found = True
+        if analysis_ws.cell(row=r, column=1).value == "A0":
+            assert analysis_ws.cell(row=r, column=2).value == pytest.approx(10.0)
+            a0_param_found = True
+    assert a0_metric_found, "A0 not found as metric in Analysis sheet"
+    assert a0_param_found, "A0 not found as parameter in Analysis sheet"
 
 
 def test_process_resolves_derived_parameter_alias_without_header_mapping():

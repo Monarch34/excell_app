@@ -3,7 +3,7 @@ import type {
   ChartSpec,
   DerivedColumnDef,
   Parameter,
-} from '@/types/domain';
+} from '@/shared/types/domain';
 
 export interface LiveConfigSnapshot {
   selectedColumns: string[];

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { buildConfigReviewModel } from './configReviewModel';
-import type { AnalysisConfig } from '@/types/domain';
+import type { AnalysisConfig } from '@/shared/types/domain';
 
 function createConfig(overrides?: Partial<AnalysisConfig>): AnalysisConfig {
   return {

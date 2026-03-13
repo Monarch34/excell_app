@@ -1,4 +1,4 @@
-import type { CalculateMetricsRequest, CalculateMetricsResponse } from '@/types/api';
+import type { CalculateMetricsRequest, CalculateMetricsResponse } from '@/shared/types/api';
 import { postData } from '@/services/httpClient';
 
 export async function calculateMetrics(

@@ -1,4 +1,4 @@
-import type { FormulaToken } from '@/types/domain';
+import type { FormulaToken } from '@/shared/types/domain';
 
 /**
  * Parse a bracket-syntax formula string into an array of FormulaTokens.

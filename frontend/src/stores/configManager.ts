@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import type { AnalysisConfig, ValidationResult } from '@/types/domain';
+import type { AnalysisConfig, ValidationResult } from '@/shared/types/domain';
 import { toUserMessage, logError } from '@/utils/errors';
 import { CONFIG_VERSION } from '@/constants/config';
 import {
@@ -65,80 +65,53 @@ export const useConfigManagerStore = defineStore(
     const isLoading = ref(false);
     const error = ref<string | null>(null);
 
-    async function saveToBackend(
-      name: string,
-      domain: string | null | undefined,
-      configData: AnalysisConfig
-    ): Promise<SaveConfigResponse> {
-      isLoading.value = true;
-      error.value = null;
-      try {
-        return await apiSaveConfig(name, domain, configData);
-      } catch (e: unknown) {
-        const userMessage = toUserMessage(e);
-        error.value = userMessage;
-        logError(e, 'saveToBackend');
-        throw e;
-      } finally {
-        isLoading.value = false;
-      }
-    }
-
-    async function fetchAllFromBackend(
-      domain?: string,
-      options?: { background?: boolean }
-    ): Promise<SavedConfigSummary[]> {
+    async function withLoadingState<T>(
+      action: () => Promise<T>,
+      context: string,
+      options?: { background?: boolean },
+    ): Promise<T> {
       const background = options?.background === true;
       if (!background) {
         isLoading.value = true;
         error.value = null;
       }
       try {
+        return await action();
+      } catch (e: unknown) {
+        const userMessage = toUserMessage(e);
+        if (!background) error.value = userMessage;
+        logError(e, context);
+        throw e;
+      } finally {
+        if (!background) isLoading.value = false;
+      }
+    }
+
+    async function saveToBackend(
+      name: string,
+      domain: string | null | undefined,
+      configData: AnalysisConfig,
+    ): Promise<SaveConfigResponse> {
+      return withLoadingState(() => apiSaveConfig(name, domain, configData), 'saveToBackend');
+    }
+
+    async function fetchAllFromBackend(
+      domain?: string,
+      options?: { background?: boolean },
+    ): Promise<SavedConfigSummary[]> {
+      return withLoadingState(async () => {
         const configs = await apiFetchConfigs(domain);
         savedConfigs.value = Array.isArray(configs) ? configs : [];
         return savedConfigs.value;
-      } catch (e: unknown) {
-        const userMessage = toUserMessage(e);
-        if (!background) {
-          error.value = userMessage;
-        }
-        logError(e, 'fetchAllFromBackend');
-        throw e;
-      } finally {
-        if (!background) {
-          isLoading.value = false;
-        }
-      }
+      }, 'fetchAllFromBackend', options);
     }
 
     async function loadFromBackend(id: number): Promise<SavedConfigDetail> {
-      isLoading.value = true;
-      error.value = null;
-      try {
-        return await apiFetchConfig(id);
-      } catch (e: unknown) {
-        const userMessage = toUserMessage(e);
-        error.value = userMessage;
-        logError(e, 'loadFromBackend');
-        throw e;
-      } finally {
-        isLoading.value = false;
-      }
+      return withLoadingState(() => apiFetchConfig(id), 'loadFromBackend');
     }
 
     async function deleteFromBackend(id: number) {
-      isLoading.value = true;
-      error.value = null;
-      try {
-        await apiDeleteConfig(id);
-      } catch (e: unknown) {
-        const userMessage = toUserMessage(e);
-        error.value = userMessage;
-        logError(e, 'deleteFromBackend');
-        throw e;
-      } finally {
-        isLoading.value = false;
-      }
+      await withLoadingState(() => apiDeleteConfig(id), 'deleteFromBackend');
     }
 
     /** Clears workspace-scoped state but preserves the saved config library. */

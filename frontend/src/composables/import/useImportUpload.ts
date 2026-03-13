@@ -6,8 +6,11 @@ import { useWorkspaceLifecycle } from '@/composables/useWorkspaceLifecycle';
 import { useNotify } from '@/composables/useNotify';
 import { useDatasetStore } from '@/stores/dataset';
 import { useConfigManagerStore } from '@/stores/configManager';
-import type { AnalysisConfig } from '@/types/domain';
+import type { AnalysisConfig } from '@/shared/types/domain';
 import { toUserMessage, logError } from '@/utils/errors';
+
+const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB
+const CONFIG_MAX_SIZE = 5 * 1024 * 1024; // 5 MB
 
 export function useImportUpload() {
   const datasetStore = useDatasetStore();
@@ -29,7 +32,6 @@ export function useImportUpload() {
   });
 
   async function handleUpload(file: File): Promise<void> {
-    const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB
     if (file.size > MAX_FILE_SIZE) {
       notifyError('File too large', `Maximum file size is 50 MB. Selected file is ${(file.size / (1024 * 1024)).toFixed(1)} MB.`);
       return;
@@ -47,7 +49,6 @@ export function useImportUpload() {
       // Step 2: Parse config BEFORE any state mutation (if present)
       let parsedConfig: AnalysisConfig | null = null;
       if (configFile.value) {
-        const CONFIG_MAX_SIZE = 5 * 1024 * 1024; // 5 MB
         if (configFile.value.size > CONFIG_MAX_SIZE) {
           notifyError('Config file too large', 'Maximum config file size is 5 MB.');
         } else {
@@ -84,7 +85,7 @@ export function useImportUpload() {
     }
   }
 
-  function applyAndValidateConfig(response: import('@/types/api').UploadResponse, config: AnalysisConfig): boolean {
+  function applyAndValidateConfig(response: import('@/shared/types/api').UploadResponse, config: AnalysisConfig): boolean {
     // Validate BEFORE any state mutation using raw response data
     const columnNames = response.columns || [];
     const parameterNames = Object.keys(response.parameters || {});

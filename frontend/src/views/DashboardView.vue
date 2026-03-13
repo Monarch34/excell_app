@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-import AppSurfacePanel from '@/components/ui/AppSurfacePanel.vue';
+import AppSurfacePanel from '@/shared/components/ui/AppSurfacePanel.vue';
 
 const router = useRouter();
 
@@ -10,12 +10,12 @@ const startAnalysis = () => {
 </script>
 
 <template>
-    <div class="ui-page-shell ui-page-shell--wide step-shell">
+    <main class="ui-page-shell ui-page-shell--wide step-shell" aria-labelledby="dashboard-heading">
         <div class="ui-page-hero">
             <div class="ui-page-logo">
-                <i class="pi pi-chart-bar"></i>
+                <i class="pi pi-chart-bar" aria-hidden="true"></i>
             </div>
-            <h1 class="ui-page-title ui-page-title--xl">Excell App</h1>
+            <h1 id="dashboard-heading" class="ui-page-title ui-page-title--xl">Excell App</h1>
             <p class="ui-page-subtitle ui-page-subtitle--lg">Mechanical Test Data Analyzer</p>
         </div>
 
@@ -52,5 +52,5 @@ const startAnalysis = () => {
                 </AppSurfacePanel>
             </div>
         </div>
-    </div>
+    </main>
 </template>

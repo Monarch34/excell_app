@@ -1,4 +1,4 @@
-import type { ProcessRequest, ProcessResponse, ProcessRunDataResponse } from '@/types/api';
+import type { ProcessRequest, ProcessResponse, ProcessRunDataResponse } from '@/shared/types/api';
 import { getData, postData } from '@/services/httpClient';
 
 export async function processData(payload: ProcessRequest, signal?: AbortSignal): Promise<ProcessResponse> {

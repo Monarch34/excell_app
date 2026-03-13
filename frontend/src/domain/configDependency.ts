@@ -1,4 +1,4 @@
-import type { AnalysisConfig, DerivedColumnDef } from '@/types/domain';
+import type { AnalysisConfig, DerivedColumnDef } from '@/shared/types/domain';
 
 export type DependencyKind =
   | 'column'

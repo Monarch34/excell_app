@@ -26,6 +26,36 @@ from ..utils.constants import CHART_CONFIG
 logger = logging.getLogger(__name__)
 
 
+def _nice_axis_limit(lo: float, hi: float, expand_low: bool, expand_high: bool) -> tuple[float, float]:
+    """Round limits outward to nice tick-friendly values so interval numbers are visible."""
+    if not np.isfinite(lo) or not np.isfinite(hi) or hi <= lo:
+        return lo, hi
+    span = hi - lo
+    if span <= 0:
+        span = 1.0
+    # Choose a step that gives roughly 6–10 ticks; round to a "nice" step
+    rough_step = span / 8
+    magnitude = 10 ** np.floor(np.log10(rough_step))
+    residual = rough_step / magnitude
+    if residual <= 1.5:
+        nice_step = magnitude
+    elif residual <= 3:
+        nice_step = 2 * magnitude
+    elif residual <= 7:
+        nice_step = 5 * magnitude
+    else:
+        nice_step = 10 * magnitude
+    # Round limits outward to multiples of nice_step
+    if expand_low:
+        lo = np.floor(lo / nice_step) * nice_step
+    if expand_high:
+        hi = np.ceil(hi / nice_step) * nice_step
+    # Ensure at least a small span
+    if hi <= lo:
+        hi = lo + nice_step
+    return float(lo), float(hi)
+
+
 class ChartGenerator:
     """
     Service for generating matplotlib charts for analysis.
@@ -187,6 +217,7 @@ class ChartGenerator:
                     alpha=0.75,
                     color=line_color,
                     linewidths=0,
+                    clip_on=False,
                 )
                 plotted_count += 1
             elif should_fill:
@@ -198,12 +229,11 @@ class ChartGenerator:
                         linewidth=line_width,
                         label=label,
                         antialiased=True,
+                        clip_on=False,
                     )
-                    # Frontend area uses fill-to-zero visual behavior.
                     ax.fill_between(x_values, y_values, 0.0, color=fill_color, alpha=fill_alpha)
                     plotted_count += 1
                 else:
-                    # Keep highly filtered area chart visible with a marker.
                     ax.scatter(
                         x_values,
                         y_values,
@@ -212,6 +242,7 @@ class ChartGenerator:
                         alpha=0.85,
                         color=line_color,
                         linewidths=0,
+                        clip_on=False,
                     )
                     plotted_count += 1
             else:
@@ -223,6 +254,7 @@ class ChartGenerator:
                         linewidth=line_width,
                         label=label,
                         antialiased=True,
+                        clip_on=False,
                     )
                     plotted_count += 1
                 else:
@@ -234,6 +266,7 @@ class ChartGenerator:
                         alpha=0.85,
                         color=line_color,
                         linewidths=0,
+                        clip_on=False,
                     )
                     plotted_count += 1
 
@@ -296,11 +329,64 @@ class ChartGenerator:
                     else:
                         ax.set_ylim(top=baseline)
 
+        # Comfortable visual padding so peaks and endpoints don't hug plot borders.
+        MARGIN_FACTOR = 0.15
+        if plotted_x and plotted_y and min_x is not None:
+            cur_xlim = ax.get_xlim()
+            cur_ylim = ax.get_ylim()
+
+            x_range = cur_xlim[1] - cur_xlim[0]
+            y_range = cur_ylim[1] - cur_ylim[0]
+            x_pad = max(x_range * MARGIN_FACTOR, 1e-9)
+            y_pad = max(y_range * MARGIN_FACTOR, 1e-9)
+
+            has_region_clamp = len(baseline_regions) > 0
+            has_area_clamp = (
+                chart_type == "area"
+                and isinstance(area_spec, dict)
+                and area_spec.get("mode") in ("positive", "negative")
+                and not has_region_clamp
+            )
+
+            if not has_region_clamp and not has_area_clamp:
+                x_lo, x_hi = cur_xlim[0] - x_pad, cur_xlim[1] + x_pad
+                y_lo, y_hi = cur_ylim[0] - y_pad, cur_ylim[1] + y_pad
+                x_lo, x_hi = _nice_axis_limit(x_lo, x_hi, True, True)
+                y_lo, y_hi = _nice_axis_limit(y_lo, y_hi, True, True)
+                ax.set_xlim(x_lo, x_hi)
+                ax.set_ylim(y_lo, y_hi)
+            elif has_area_clamp:
+                axis = area_spec.get("baseline_axis") or "y"
+                mode = area_spec.get("mode")
+                if axis == "x":
+                    y_lo, y_hi = _nice_axis_limit(
+                        cur_ylim[0] - y_pad, cur_ylim[1] + y_pad, True, True
+                    )
+                    ax.set_ylim(y_lo, y_hi)
+                    if mode == "positive":
+                        x_lo, x_hi = _nice_axis_limit(cur_xlim[0], cur_xlim[1] + x_pad, False, True)
+                        ax.set_xlim(x_lo, x_hi)
+                    else:
+                        x_lo, x_hi = _nice_axis_limit(cur_xlim[0] - x_pad, cur_xlim[1], True, False)
+                        ax.set_xlim(x_lo, x_hi)
+                else:
+                    x_lo, x_hi = _nice_axis_limit(
+                        cur_xlim[0] - x_pad, cur_xlim[1] + x_pad, True, True
+                    )
+                    ax.set_xlim(x_lo, x_hi)
+                    if mode == "positive":
+                        y_lo, y_hi = _nice_axis_limit(cur_ylim[0], cur_ylim[1] + y_pad, False, True)
+                        ax.set_ylim(y_lo, y_hi)
+                    else:
+                        y_lo, y_hi = _nice_axis_limit(cur_ylim[0] - y_pad, cur_ylim[1], True, False)
+                        ax.set_ylim(y_lo, y_hi)
+
         ax.xaxis.set_major_formatter(self.formatter)
         ax.yaxis.set_major_formatter(self.formatter)
         ax.xaxis.set_major_locator(ticker.MaxNLocator(nbins=10))
         ax.yaxis.set_major_locator(ticker.MaxNLocator(nbins=10))
         ax.tick_params(axis="both", labelsize=9, colors="#334155")
+        ax.tick_params(axis="both", which="major", pad=6)
         ax.grid(False)
         ax.spines["top"].set_visible(False)
         ax.spines["right"].set_visible(False)
@@ -322,10 +408,17 @@ class ChartGenerator:
         if len(y_cols) > 1:
             ax.legend(frameon=False, fontsize=9)
 
-        fig.tight_layout(pad=1.1)
+        fig.tight_layout(pad=1.5)
 
         buf = io.BytesIO()
-        fig.savefig(buf, format="png", dpi=self.dpi, facecolor="white")
+        fig.savefig(
+            buf,
+            format="png",
+            dpi=self.dpi,
+            facecolor="white",
+            bbox_inches="tight",
+            pad_inches=0.2,
+        )
         buf.seek(0)
         return buf
 

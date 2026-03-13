@@ -137,12 +137,12 @@ export function createAnalysisStepGuard(routeName: AnalysisRouteName): Navigatio
 }
 
 const ANALYSIS_STEP_COMPONENTS: Record<AnalysisRouteName, () => Promise<unknown>> = {
-  'analysis-import': () => import('../components/steps/ImportView.vue'),
-  'analysis-columns-params': () => import('../components/steps/ColumnsParamsView.vue'),
-  'analysis-calculations': () => import('../components/steps/CalculationsView.vue'),
-  'analysis-charts-area': () => import('../components/steps/ChartsAreaView.vue'),
-  'analysis-review': () => import('../components/steps/AnalysisDashboard.vue'),
-  'analysis-export': () => import('../components/steps/ConfigManagerView.vue'),
+  'analysis-import': () => import('../features/import/ImportView.vue'),
+  'analysis-columns-params': () => import('../features/columns/ColumnsParamsView.vue'),
+  'analysis-calculations': () => import('../features/calculations/CalculationsView.vue'),
+  'analysis-charts-area': () => import('../features/charts/ChartsAreaView.vue'),
+  'analysis-review': () => import('../features/analysis/AnalysisDashboard.vue'),
+  'analysis-export': () => import('../features/config/ConfigManagerView.vue'),
 };
 
 const analysisChildRoutes: RouteRecordRaw[] = ANALYSIS_STEP_CONFIG.map((step) => ({

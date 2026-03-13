@@ -1,4 +1,4 @@
-import type { AnalysisConfig } from '@/types/domain';
+import type { AnalysisConfig } from '@/shared/types/domain';
 
 /**
  * Build API header mapping payload from the currently loaded config metadata.

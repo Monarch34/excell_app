@@ -208,3 +208,54 @@ class TestCSVParserGetAvailableColumns:
         columns = CSVParser.get_available_columns(empty_df)
 
         assert columns == []
+
+
+class TestCSVParserEdgeCases:
+    """Edge case tests for CSV parsing robustness."""
+
+    def test_parse_header_only_csv(self):
+        """Should parse CSV with only a header row and no data."""
+        csv_content = "Col1,Col2,Col3\n"
+        buffer = BytesIO(csv_content.encode("utf-8"))
+        df, parameters, units, parameter_units = CSVParser.parse(buffer)
+
+        assert isinstance(df, pd.DataFrame)
+        assert len(df) == 0
+
+    def test_parse_csv_with_duplicate_column_headers(self):
+        """Should handle duplicate column headers without crashing."""
+        csv_content = "A,B,A\n1,2,3\n4,5,6\n"
+        buffer = BytesIO(csv_content.encode("utf-8"))
+        df, _, _, _ = CSVParser.parse(buffer)
+
+        assert isinstance(df, pd.DataFrame)
+        assert len(df) == 2
+        assert len(df.columns) == 3
+
+    def test_parse_csv_with_bom(self):
+        """Should handle UTF-8 BOM encoding without issues."""
+        bom = b"\xef\xbb\xbf"
+        csv_content = bom + "Col1,Col2\n1,2\n3,4\n".encode("utf-8")
+        buffer = BytesIO(csv_content)
+        df, _, _, _ = CSVParser.parse(buffer)
+
+        assert isinstance(df, pd.DataFrame)
+        assert len(df) == 2
+
+    def test_parse_csv_with_semicolon_delimiter(self):
+        """Should parse semicolon-delimited CSV files."""
+        csv_content = "Col1;Col2\n1;2\n3;4\n"
+        buffer = BytesIO(csv_content.encode("utf-8"))
+        df, _, _, _ = CSVParser.parse(buffer)
+
+        assert isinstance(df, pd.DataFrame)
+        assert len(df) >= 1
+
+    def test_parse_csv_with_quoted_fields_containing_commas(self):
+        """Should handle quoted fields that contain commas."""
+        csv_content = 'Name,Value\n"Smith, John",42\n"Doe, Jane",37\n'
+        buffer = BytesIO(csv_content.encode("utf-8"))
+        df, _, _, _ = CSVParser.parse(buffer)
+
+        assert isinstance(df, pd.DataFrame)
+        assert len(df) == 2

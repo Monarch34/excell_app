@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import type { DerivedColumnDef } from '@/types/domain';
+import type { DerivedColumnDef } from '@/shared/types/domain';
 import { fetchLimits } from '@/services/configsApi';
 
 // The authoritative limit comes from the backend at startup (see initLimits).

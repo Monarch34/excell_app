@@ -3,7 +3,7 @@ import { useParametersStore } from '@/stores/parameters';
 import { useDerivedColumnsStore } from '@/stores/derivedColumns';
 import { useChartsStore } from '@/stores/charts';
 import { useDatasetStore } from '@/stores/dataset';
-import type { AnalysisConfig, MatchingColumnGroup } from '@/types/domain';
+import type { AnalysisConfig, MatchingColumnGroup } from '@/shared/types/domain';
 
 /**
  * Composable that applies a loaded AnalysisConfig to all relevant stores.

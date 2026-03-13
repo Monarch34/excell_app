@@ -1,4 +1,4 @@
-import type { AnalysisConfig } from '@/types/domain';
+import type { AnalysisConfig } from '@/shared/types/domain';
 import { deleteData, getData, postData } from '@/services/httpClient';
 
 export interface SavedConfigSummary {

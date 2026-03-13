@@ -98,3 +98,8 @@
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--error-color) 18%, transparent);
 }
 
+/* Disable PrimeVue ripple/ink circle on all buttons so no circular halo appears on dialog cancel or icon buttons */
+.p-button .p-ink {
+  display: none;
+}
+

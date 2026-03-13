@@ -1,6 +1,6 @@
 import { getProcessedRunData, processData } from '@/services/processingApi';
-import type { ProcessRequest, ProcessResponse } from '@/types/api';
-import type { DerivedColumnDef } from '@/types/domain';
+import type { ProcessRequest, ProcessResponse } from '@/shared/types/api';
+import type { DerivedColumnDef } from '@/shared/types/domain';
 import { useDatasetStore } from '@/stores/dataset';
 import { useColumnsStore } from '@/stores/columns';
 import { useParametersStore } from '@/stores/parameters';

@@ -1,4 +1,4 @@
-import type { ExportRequest } from '@/types/api';
+import type { ExportRequest } from '@/shared/types/api';
 import { postData } from '@/services/httpClient';
 
 export async function exportXlsx(payload: ExportRequest): Promise<Blob> {

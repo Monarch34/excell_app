@@ -11,7 +11,8 @@ import { useConfigManagerStore } from '@/stores/configManager';
 import { useAnalysisStore } from '@/stores/analysis';
 import { DEFAULT_EXPORT_FILENAME } from '@/constants/config';
 import { buildHeaderMappingFromConfig } from '@/utils/headerMapping';
-import type { ExportRequest } from '@/types/api';
+import { normalizeHexColor } from '@/utils/color';
+import type { ExportRequest } from '@/shared/types/api';
 
 export function normalizeFilenameCandidate(value: string | null | undefined): string {
   return (value || '').trim().replace(/[^a-zA-Z0-9 _-]/g, '').trim();
@@ -44,10 +45,8 @@ export function useConfigExportReport() {
   }
 
   function normalizeHex(value: string | null | undefined): string | null {
-    if (!value) return null;
-    const cleaned = String(value).trim().replace(/^#/, '');
-    if (!/^[0-9a-fA-F]{6}$/.test(cleaned)) return null;
-    return cleaned.toUpperCase();
+    const result = normalizeHexColor(value);
+    return result ? result.replace('#', '') : null;
   }
 
   async function handleExport(): Promise<void> {

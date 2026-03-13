@@ -9,8 +9,8 @@ import {
   type AnalysisRouteName,
   getAnalysisRouteAccess,
 } from '@/router';
-import WizardStepper from '@/components/common/WizardStepper.vue';
-import NavigationFooter from '@/components/common/NavigationFooter.vue';
+import WizardStepper from '@/shared/components/ui/WizardStepper.vue';
+import NavigationFooter from '@/shared/components/ui/NavigationFooter.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -24,13 +24,6 @@ const stepLabels = ANALYSIS_STEP_CONFIG.map((step) => step.label);
 
 function isAnalysisRouteName(routeName: unknown): routeName is AnalysisRouteName {
   return ANALYSIS_STEP_CONFIG.some((step) => step.name === routeName);
-}
-
-function resolveRouteName(target: unknown, fallback: AnalysisRouteName | null): AnalysisRouteName | null {
-  if (isAnalysisRouteName(target)) {
-    return target;
-  }
-  return fallback;
 }
 
 const currentStepIndex = computed(() => {
@@ -48,6 +41,13 @@ const canGoNext = computed(() => {
     return true;
   }
   return getAnalysisRouteAccess(nextRoute).allowed;
+});
+
+const nextStepLabel = computed(() => {
+  const nextName = currentStep.value.next;
+  if (!nextName) return 'Next';
+  const nextConfig = ANALYSIS_STEP_CONFIG.find((s) => s.name === nextName);
+  return nextConfig ? `Next: ${nextConfig.label}` : 'Next';
 });
 
 async function navigateToRoute(
@@ -84,7 +84,8 @@ function goToChartsStep() {
 }
 
 function handleImportNext(targetRoute?: AnalysisRouteName) {
-  void navigateToRoute(resolveRouteName(targetRoute, currentStep.value.next));
+  const resolved = isAnalysisRouteName(targetRoute) ? targetRoute : currentStep.value.next;
+  void navigateToRoute(resolved);
 }
 
 function handleBack() {
@@ -115,7 +116,8 @@ async function handlePrimary() {
 </script>
 
 <template>
-  <div class="ui-analysis-view">
+  <main class="ui-analysis-view" aria-labelledby="analysis-heading">
+    <h1 id="analysis-heading" class="ui-visually-hidden">Analysis</h1>
     <WizardStepper :steps="stepLabels" :activeStep="activeStep" />
 
     <div class="ui-analysis-content">
@@ -133,12 +135,13 @@ async function handlePrimary() {
 
     <NavigationFooter
       v-if="!isFirstStep"
-      :primaryLabel="isLastStep ? 'Done' : 'Next'"
+      :primaryLabel="isLastStep ? 'Done' : nextStepLabel"
       :primaryIcon="isLastStep ? 'pi pi-check' : 'pi pi-arrow-right'"
       :primaryDisabled="(!canGoNext && !isLastStep) || processing"
       :primaryLoading="processing"
+      :stepDescription="`Step ${currentStepIndex + 1} of ${ANALYSIS_STEP_CONFIG.length}`"
       @back="handleBack"
       @primary="handlePrimary"
     />
-  </div>
+  </main>
 </template>

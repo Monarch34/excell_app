@@ -1,4 +1,4 @@
-import type { DetectColumnsResponse, UploadResponse } from '@/types/api';
+import type { DetectColumnsResponse, UploadResponse } from '@/shared/types/api';
 import { postData } from '@/services/httpClient';
 
 export async function uploadFile(file: File): Promise<UploadResponse> {

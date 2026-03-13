@@ -1,19 +1,12 @@
 import { computed, ref } from 'vue';
-import type { AreaSpec, BaselineSpec, ChartSpec, ChartType } from '@/types/domain';
+import type { AreaSpec, BaselineSpec, ChartSpec, ChartType } from '@/shared/types/domain';
 import { CHART_COLOR_PRESETS } from '@/constants/chartColors';
+import { normalizeHexColorInput } from '@/utils/color';
 
 export function useChartDefinitionForm(
   chart: ChartSpec,
   update: (updates: Partial<ChartSpec>) => void
 ) {
-  function normalizeHexColorInput(input: string | undefined): string | null | undefined {
-    if (!input) return null;
-    const cleaned = input.replace(/[^0-9a-fA-F]/g, '').slice(0, 6);
-    if (!cleaned) return null;
-    if (cleaned.length !== 6) return undefined;
-    return `#${cleaned.toUpperCase()}`;
-  }
-
   const chartTypeOptions = [
     { label: 'Line', value: 'line' as ChartType, icon: 'pi pi-chart-line' },
     { label: 'Scatter', value: 'scatter' as ChartType, icon: 'pi pi-circle' },
@@ -65,29 +58,16 @@ export function useChartDefinitionForm(
     update({ chartType: value, areaSpec: existingAreaSpec ?? null });
   }
 
-  function handleLineColorChange(hex: string | undefined) {
+  function applyColor(field: 'lineColor' | 'fillColor', hex: string | undefined) {
     const color = normalizeHexColorInput(hex);
     if (color === undefined) return;
-    update({ lineColor: color });
+    update({ [field]: color });
   }
 
-  function handleFillColorChange(hex: string | undefined) {
-    const color = normalizeHexColorInput(hex);
-    if (color === undefined) return;
-    update({ fillColor: color });
-  }
-
-  function applyLineColor(color: string) {
-    const normalized = normalizeHexColorInput(color);
-    if (normalized === undefined) return;
-    update({ lineColor: normalized });
-  }
-
-  function applyFillColor(color: string) {
-    const normalized = normalizeHexColorInput(color);
-    if (normalized === undefined) return;
-    update({ fillColor: normalized });
-  }
+  function handleLineColorChange(hex: string | undefined) { applyColor('lineColor', hex); }
+  function handleFillColorChange(hex: string | undefined) { applyColor('fillColor', hex); }
+  function applyLineColor(color: string) { applyColor('lineColor', color); }
+  function applyFillColor(color: string) { applyColor('fillColor', color); }
 
   function resetStyle() {
     if (chart.chartType === 'scatter') {
