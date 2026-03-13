@@ -1,0 +1,62 @@
+{
+    "name": "excell-app-frontend",
+    "version": "1.0.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview",
+        "type-check": "vue-tsc --noEmit",
+        "lint": "biome lint . --diagnostic-level=error && node scripts/check-frontend-boundaries.mjs && node scripts/check-no-any.mjs",
+        "lint:fix": "biome lint . --write --diagnostic-level=error && node scripts/check-frontend-boundaries.mjs && node scripts/check-no-any.mjs",
+        "test": "vitest",
+        "test:ui": "vitest --ui",
+        "test:coverage": "vitest --coverage",
+        "test:e2e": "playwright test",
+        "api:sync": "..\\venv\\Scripts\\python.exe ..\\backend\\scripts\\sync_api_contract.py",
+        "api:check": "..\\venv\\Scripts\\python.exe ..\\backend\\scripts\\sync_api_contract.py --check",
+        "ui:guard": "node scripts/ui-guard.mjs",
+        "check:no-any": "node scripts/check-no-any.mjs",
+        "visual:baseline": "node tests/visual/print-guide.mjs",
+        "check": "npm run lint && npm run type-check && npm run test && npm run build"
+    },
+    "dependencies": {
+        "@primevue/themes": "^4.2.5",
+        "axios": "^1.7.9",
+        "pinia": "^3.0.4",
+        "pinia-plugin-persistedstate": "^4.7.1",
+        "plotly.js-dist-min": "^2.30.0",
+        "primeflex": "^4.0.0",
+        "primeicons": "^7.0.0",
+        "primevue": "^4.5.4",
+        "raw-loader": "^4.0.2",
+        "vue": "^3.5.13",
+        "vue-router": "^4.6.4",
+        "vuedraggable": "^4.1.0"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "^2.4.2",
+        "@playwright/test": "^1.58.2",
+        "@tsconfig/node20": "^20.1.9",
+        "@vitejs/plugin-vue": "^5.2.1",
+        "@vitest/ui": "^4.0.18",
+        "@vue/test-utils": "^2.4.6",
+        "jsdom": "^28.0.0",
+        "typescript": "^5.9.3",
+        "vite": "^6.0.7",
+        "vite-plugin-compression": "^0.5.1",
+        "vitest": "^4.0.18",
+        "vue-tsc": "^3.2.4"
+    },
+    "engines": {
+        "node": ">=20 <25",
+        "npm": ">=10 <12"
+    },
+    "packageManager": "npm@11.6.2",
+    "overrides": {
+        "minimatch": "10.2.1",
+        "glob": "11.1.0",
+        "editorconfig": "2.0.1"
+    }
+}

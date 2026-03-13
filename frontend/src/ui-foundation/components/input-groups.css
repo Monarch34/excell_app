@@ -1,0 +1,55 @@
+/* grouped input + reset */
+.ui-inline-reset {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: stretch;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: border-color var(--duration-fast) var(--ease-in-out), box-shadow var(--duration-fast) var(--ease-in-out);
+}
+
+.ui-inline-reset:hover {
+  border-color: var(--ui-hover-border);
+}
+
+.ui-inline-reset:focus-within {
+  border-color: var(--ui-focus-border);
+  box-shadow: var(--ui-focus-ring);
+}
+
+.ui-inline-reset-input,
+.ui-inline-reset-number,
+.ui-inline-reset .p-inputnumber {
+  min-width: 0;
+}
+
+.ui-inline-reset .p-inputtext,
+.ui-inline-reset .p-inputnumber-input,
+.ui-inline-reset .p-inputnumber {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.ui-inline-reset-btn.p-button {
+  border-radius: 0;
+  border: 0;
+  min-width: 2.5rem;
+  background: color-mix(in srgb, var(--surface-card) 94%, var(--surface-ground));
+  color: var(--text-color-secondary);
+}
+
+.ui-inline-reset-btn.p-button:enabled:hover {
+  background: color-mix(in srgb, var(--surface-hover) 72%, var(--surface-card));
+  color: var(--text-color);
+}
+
+.ui-inline-reset-btn.p-button:enabled:active {
+  transform: none;
+}
+
+.ui-inline-reset-btn.p-button .p-ink {
+  display: none;
+}
+

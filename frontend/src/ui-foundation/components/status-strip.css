@@ -1,0 +1,19 @@
+/* status strip */
+.ui-status-strip {
+  display: grid;
+  align-items: center;
+}
+
+.ui-status-strip-panel--centered,
+.ui-status-strip-idle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+}
+
+.ui-status-strip-error {
+  border-color: color-mix(in srgb, var(--error-color) 35%, var(--surface-border));
+  background: color-mix(in srgb, var(--error-color) 8%, var(--surface-card));
+}
+

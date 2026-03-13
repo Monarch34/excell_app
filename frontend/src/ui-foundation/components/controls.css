@@ -1,0 +1,100 @@
+/* PrimeVue control baseline */
+.p-button {
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-medium);
+}
+
+.ui-action-icon-btn.p-button {
+  width: var(--ui-action-icon-size);
+  height: var(--ui-action-icon-size);
+  min-width: var(--ui-action-icon-size);
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 var(--ui-action-icon-size);
+}
+
+.ui-action-icon-btn.p-button .p-button-icon {
+  font-size: 0.9rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.p-button:focus-visible,
+.p-inputtext:focus,
+.p-textarea:focus,
+.p-select:focus,
+.p-dropdown:focus,
+.p-multiselect:focus,
+.p-inputnumber-input:focus {
+  outline: none;
+}
+
+.p-inputtext,
+.p-inputnumber-input,
+.p-dropdown,
+.p-select,
+.p-multiselect,
+.p-textarea {
+  border-radius: var(--ui-control-radius);
+  border: 1px solid var(--surface-border);
+  background: var(--surface-card);
+  color: var(--text-color);
+  transition: border-color var(--duration-fast) var(--ease-in-out), box-shadow var(--duration-fast) var(--ease-in-out), background-color var(--duration-fast) var(--ease-in-out);
+}
+
+.p-inputtext,
+.p-inputnumber-input,
+.p-dropdown,
+.p-select,
+.p-multiselect {
+  min-height: var(--ui-control-height);
+}
+
+.p-inputtext:hover,
+.p-inputnumber-input:hover,
+.p-dropdown:hover,
+.p-select:hover,
+.p-multiselect:hover,
+.p-textarea:hover {
+  border-color: var(--ui-hover-border);
+}
+
+.p-inputtext:enabled:focus,
+.p-inputnumber-input:enabled:focus,
+.p-dropdown:focus,
+.p-select:focus,
+.p-multiselect:focus,
+.p-textarea:enabled:focus {
+  border-color: var(--ui-focus-border);
+  box-shadow: var(--ui-focus-ring);
+}
+
+.p-inputtext.p-invalid,
+.p-inputnumber-input.p-invalid,
+.p-dropdown.p-invalid,
+.p-select.p-invalid,
+.p-multiselect.p-invalid,
+.p-textarea.p-invalid {
+  border-color: color-mix(in srgb, var(--error-color) 68%, var(--surface-border));
+}
+
+.p-inputtext.p-invalid:hover,
+.p-inputnumber-input.p-invalid:hover,
+.p-dropdown.p-invalid:hover,
+.p-select.p-invalid:hover,
+.p-multiselect.p-invalid:hover,
+.p-textarea.p-invalid:hover,
+.p-inputtext.p-invalid:enabled:focus,
+.p-inputnumber-input.p-invalid:enabled:focus,
+.p-dropdown.p-invalid:focus,
+.p-select.p-invalid:focus,
+.p-multiselect.p-invalid:focus,
+.p-textarea.p-invalid:enabled:focus {
+  border-color: color-mix(in srgb, var(--error-color) 72%, var(--surface-border));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--error-color) 18%, transparent);
+}
+

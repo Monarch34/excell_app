@@ -1,0 +1,154 @@
+/* final coverage styles */
+.ui-analysis-metric-grid {
+  margin: 0;
+}
+
+.ui-analysis-metric-grid--panel {
+  border-top: 1px solid color-mix(in srgb, var(--surface-border) 78%, transparent);
+  padding-top: 0.65rem;
+}
+
+.ui-metric-grid {
+  align-items: stretch;
+}
+
+.ui-metric-card {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.ui-metric-card-label {
+  font-size: var(--font-size-xs);
+  color: var(--text-color-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ui-metric-card-value {
+  font-size: clamp(1.1rem, 1rem + 0.5vw, 1.35rem);
+  font-weight: var(--font-weight-semibold);
+}
+
+.ui-metric-card-unit {
+  font-size: var(--font-size-xs);
+  color: var(--text-color-secondary);
+}
+
+.ui-calc-section-header {
+  margin-bottom: 0.2rem;
+}
+
+.ui-chart-card-header--collapsed {
+  opacity: 0.95;
+}
+
+.ui-chart-axes-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.ui-chart-form-spacing {
+  margin-bottom: 0.3rem;
+}
+
+.ui-chart-list {
+  display: grid;
+  gap: var(--spacing-sm);
+}
+
+.ui-chart-preview-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.ui-config-export-row {
+  align-items: end;
+}
+
+.ui-config-load-list-head {
+  margin-bottom: 0.2rem;
+}
+
+.ui-data-table--compact-paginator .p-paginator {
+  padding-block: 0.35rem;
+}
+
+.ui-data-table--header-top .p-datatable-thead > tr > th {
+  vertical-align: top;
+}
+
+.ui-field--error .p-inputtext,
+.ui-field--error .p-inputnumber-input,
+.ui-field--error .p-dropdown,
+.ui-field--error .p-select,
+.ui-field--error .p-multiselect,
+.ui-field--error .p-textarea {
+  border-color: color-mix(in srgb, var(--error-color) 68%, var(--surface-border));
+}
+
+.ui-formula-helper {
+  color: var(--text-color-secondary);
+  max-width: 76ch;
+  line-height: 1.35;
+  display: inline-block;
+}
+
+.ui-nav-footer--wizard {
+  box-shadow: var(--shadow-sm);
+}
+
+.ui-region-grid--has-selection {
+  border-color: color-mix(in srgb, var(--primary-500) 36%, var(--surface-border));
+}
+
+.ui-section-label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-color-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ui-select-item {
+  transition: border-color var(--duration-fast) var(--ease-in-out), background-color var(--duration-fast) var(--ease-in-out);
+}
+
+.ui-select-item:hover {
+  border-color: var(--ui-hover-border);
+  background: color-mix(in srgb, var(--surface-hover) 70%, var(--surface-card));
+}
+
+.ui-table-skeleton-bar--cell {
+  height: 0.58rem;
+}
+
+.ui-variable-chip--help {
+  border-color: color-mix(in srgb, var(--primary-400) 24%, var(--surface-border));
+}
+
+.p-multiselect-panel,
+.p-select-overlay,
+.p-dropdown-panel {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--surface-border);
+  background: color-mix(in srgb, var(--surface-card) 98%, var(--surface-ground));
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.p-multiselect-panel .p-multiselect-header,
+.p-dropdown-panel .p-dropdown-header,
+.p-select-overlay .p-select-header {
+  background: color-mix(in srgb, var(--surface-section) 88%, var(--surface-card));
+  border-bottom: 1px solid color-mix(in srgb, var(--surface-border) 76%, transparent);
+}
+
+.p-multiselect-panel .p-multiselect-item,
+.p-dropdown-panel .p-dropdown-item,
+.p-select-overlay .p-select-option {
+  min-height: 2.1rem;
+}
+

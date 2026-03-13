@@ -1,0 +1,51 @@
+/* Field */
+.ui-field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.ui-field-label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-color-secondary);
+}
+
+.ui-field-label-row {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-xs);
+  width: 100%;
+}
+
+.ui-field-label-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.ui-field-label--plain {
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: var(--font-size-sm);
+}
+
+.ui-field-required,
+.ui-field-error {
+  color: var(--error-color);
+}
+
+.ui-field-description {
+  color: var(--text-color-secondary);
+  font-size: var(--font-size-xs);
+}
+
+.ui-field-error {
+  font-size: var(--font-size-xs);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+

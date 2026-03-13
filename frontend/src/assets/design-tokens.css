@@ -1,0 +1,311 @@
+/**
+ * Design Tokens - Single Source of Truth
+ *
+ * This file defines all design tokens (colors, typography, spacing, etc.)
+ * Import this FIRST in main.css before any other styles.
+ *
+ * Structure:
+ * 1. Colors (primary palette, semantic, surfaces, text)
+ * 2. Typography (sizes, weights, line heights)
+ * 3. Spacing (standard scale for margins/padding/gaps)
+ * 4. Sizing (border radius, shadows, borders)
+ * 5. Layout (breakpoints, z-index)
+ * 6. Motion (transitions, animations)
+ */
+
+:root {
+   /* ========================================================================
+     COLORS
+     ======================================================================== */
+
+   /* Primary Palette - Brand Colors */
+   --color-primary-50: #eff6ff;
+   --color-primary-100: #dbeafe;
+   --color-primary-200: #bfdbfe;
+   --color-primary-300: #93c5fd;
+   --color-primary-400: #60a5fa;
+   --color-primary-500: #3b82f6;
+   /* Main brand color */
+   --color-primary-600: #2563eb;
+   --color-primary-700: #1d4ed8;
+   --color-primary-800: #1e40af;
+   --color-primary-900: #1e3a8a;
+   --color-primary-950: #172554;
+
+   /* Base Colors - Primitives */
+   --color-white: #ffffff;
+   --color-black: #000000;
+   --color-transparent: transparent;
+
+   /* Semantic Colors - Intent-based */
+   --color-success: #22c55e;
+   --color-warning: #f59e0b;
+   --color-error: #ef4444;
+   --color-info: var(--color-primary-500);
+   --color-accent-help: #7c3aed;
+   --color-separator-default: #2f855a;
+
+   /* Primary Alpha Variants - For overlays and transparent backgrounds */
+   --color-primary-alpha-10: color-mix(in srgb, var(--color-primary-500) 10%, transparent);
+   --color-primary-alpha-20: color-mix(in srgb, var(--color-primary-500) 20%, transparent);
+   --color-primary-alpha-30: color-mix(in srgb, var(--color-primary-500) 30%, transparent);
+
+   /* Surface Colors - Backgrounds and Borders (Light Mode) */
+   --surface-ground: #f2f6fc;
+   /* Base background */
+   --surface-section: #e5eef9;
+   /* Alternate sections */
+   --surface-card: #ffffff;
+   /* Cards, panels */
+   --surface-overlay: #ffffff;
+   /* Modals, dialogs */
+   --surface-border: #b9c8dc;
+   /* Borders */
+   --surface-hover: #dbe7f6;
+   /* Hover states */
+   --surface-selected-bg: color-mix(in srgb, var(--color-primary-500) 12%, var(--surface-ground));
+   --surface-selected-border: var(--color-primary-500);
+
+   /* Text Colors */
+   --text-color: #132236;
+   /* Primary text */
+   --text-color-secondary: #415671;
+   /* Secondary text */
+   --text-color-disabled: #6e829d;
+   /* Disabled text */
+   --text-color-inverse: #ffffff;
+   /* Text on dark backgrounds */
+   --text-title-color: rgb(26 108 220);
+   /* Global title color */
+   --chart-paper-bg: transparent;
+   --chart-plot-bg: transparent;
+   --chart-panel-tint-strength: 0%;
+   --chart-panel-tint-color: var(--color-primary-500);
+
+   /* Color Utilities - For tinting/shading */
+   --color-overlay-light: rgba(255, 255, 255, 0.1);
+   --color-overlay-dark: rgba(0, 0, 0, 0.1);
+
+   /* ========================================================================
+     TYPOGRAPHY
+     ======================================================================== */
+
+   /* Font Families */
+   --font-family-base: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+   --font-family: var(--font-family-base); /* Alias for consistency across UI foundation files */
+   --font-family-mono: 'Fira Code', 'Courier New', Consolas, monospace;
+
+   /* Font Sizes - Consistent scale */
+   --font-size-xs: 0.75rem;
+   /* 12px - Captions, labels */
+   --font-size-sm: 0.875rem;
+   /* 14px - Small text */
+   --font-size-base: 0.9375rem;
+   /* 15px - Body text (default) */
+   --font-size-lg: 1rem;
+   /* 16px - Large body text */
+   --font-size-xl: 1.125rem;
+   /* 18px - Subheadings */
+   --font-size-2xl: 1.25rem;
+   /* 20px - Section titles */
+   --font-size-3xl: 1.5rem;
+   /* 24px - Page titles */
+   --font-size-4xl: 2rem;
+   /* 32px - Hero text */
+   --font-size-5xl: 3rem;
+   /* 48px - Display text */
+
+  /* Font Weights */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+   --font-weight-bold: 700;
+
+   /* Line Heights */
+   --line-height-tight: 1.25;
+   --line-height-normal: 1.5;
+   --line-height-relaxed: 1.75;
+   --line-height-loose: 2;
+
+   /* Letter Spacing */
+   --letter-spacing-tight: -0.025em;
+   --letter-spacing-normal: 0;
+   --letter-spacing-wide: 0.025em;
+
+   /* ========================================================================
+     SPACING
+     ======================================================================== */
+
+   /* Spacing Scale - For margins, padding, gaps */
+   --spacing-0: 0;
+   --spacing-xs: 0.25rem;
+   /* 4px */
+   --spacing-sm: 0.5rem;
+   /* 8px */
+   --spacing-md: 0.75rem;
+   /* 12px */
+   --spacing-lg: 1rem;
+   /* 16px */
+   --spacing-xl: 1.5rem;
+   /* 24px */
+   --spacing-2xl: 2rem;
+   /* 32px */
+   --spacing-3xl: 3rem;
+   /* 48px */
+   --spacing-4xl: 4rem;
+   /* 64px */
+   --spacing-5xl: 6rem;
+   /* 96px */
+
+   /* Component-specific spacing */
+   --spacing-input-padding-x: var(--spacing-md);
+   --spacing-input-padding-y: var(--spacing-sm);
+   --spacing-button-padding-x: var(--spacing-lg);
+   --spacing-button-padding-y: var(--spacing-sm);
+   --spacing-card-padding: var(--spacing-xl);
+
+   /* ========================================================================
+     SIZING
+     ======================================================================== */
+
+   /* Border Radius - Rounded corners */
+   --radius-none: 0;
+   --radius-sm: 0.375rem;
+   /* 6px - Inputs, small elements */
+   --radius-md: 0.5rem;
+   /* 8px - Buttons, chips */
+   --radius-lg: 0.75rem;
+   /* 12px - Cards, panels */
+   --radius-xl: 1rem;
+   /* 16px - Large cards, modals */
+   --radius-full: 9999px;
+   /* Pill shape */
+
+   /* Border Widths */
+   --border-width-thin: 1px;
+   --border-width-medium: 2px;
+   --border-width-thick: 4px;
+
+   /* Shadows - Elevation system */
+   --shadow-none: none;
+   --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+   --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+   --shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+   --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+   /* Input/Control Heights */
+   --height-input-sm: 2rem;
+   /* 32px */
+   --height-input-md: 2.5rem;
+   /* 40px */
+   --height-input-lg: 3rem;
+   /* 48px */
+
+   /* ========================================================================
+     LAYOUT
+     ======================================================================== */
+
+   /* Breakpoints - For reference in JavaScript */
+   --breakpoint-xs: 480px;
+   /* Extra small devices */
+   --breakpoint-sm: 640px;
+   /* Small devices */
+   --breakpoint-md: 768px;
+   /* Tablets */
+   --breakpoint-lg: 1024px;
+   /* Laptops */
+   --breakpoint-xl: 1280px;
+   /* Desktops */
+   --breakpoint-2xl: 1536px;
+   /* Large screens */
+
+   /* Z-Index Scale */
+   --z-index-base: 0;
+   --z-index-dropdown: 1000;
+   --z-index-sticky: 1020;
+   --z-index-fixed: 1030;
+   --z-index-modal-backdrop: 1040;
+   --z-index-modal: 1050;
+   --z-index-popover: 1060;
+   --z-index-tooltip: 1070;
+
+   /* Container Widths */
+   --container-sm: 640px;
+   --container-md: 768px;
+   --container-lg: 1024px;
+   --container-xl: 1280px;
+
+   /* ========================================================================
+     MOTION
+     ======================================================================== */
+
+   /* Transition Durations */
+   --duration-instant: 0ms;
+   --duration-fast: 150ms;
+   --duration-base: 200ms;
+   --duration-slow: 300ms;
+   --duration-slower: 500ms;
+
+   /* Transition Easing */
+   --ease-in: cubic-bezier(0.4, 0, 1, 1);
+   --ease-out: cubic-bezier(0, 0, 0.2, 1);
+   --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+   --ease-sharp: cubic-bezier(0.4, 0, 0.6, 1);
+
+   /* Common Transitions */
+   --transition-fast: all var(--duration-fast) var(--ease-in-out);
+   --transition-base: all var(--duration-base) var(--ease-in-out);
+   --transition-slow: all var(--duration-slow) var(--ease-in-out);
+}
+
+/* ============================================================================
+   DARK MODE OVERRIDES
+   ============================================================================ */
+
+.app-dark {
+   /* Surface Colors - Dark Mode */
+   --surface-ground: #0c1728;
+   /* Dark blue-gray */
+   --surface-section: #16253d;
+   --surface-card: #21344f;
+   --surface-overlay: #29415f;
+   --surface-border: #506987;
+   --surface-hover: #304966;
+   --surface-selected-bg: color-mix(in srgb, var(--color-primary-400) 20%, var(--surface-ground));
+   --surface-selected-border: var(--color-primary-400);
+
+   /* Text Colors - Dark Mode */
+   --text-color: #edf3fb;
+   --text-color-secondary: #c0cde0;
+   --text-color-disabled: #8da1bb;
+   --text-color-inverse: #0f172a;
+   --text-title-color: rgb(136 196 255);
+   --color-accent-help: #c4b5fd;
+   --color-separator-default: #68d391;
+   --chart-paper-bg: transparent;
+   --chart-plot-bg: transparent;
+   --chart-panel-tint-strength: 0%;
+   --chart-panel-tint-color: var(--color-primary-400);
+
+   /* Shadows - Darker and more pronounced in dark mode */
+   --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+   --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px -1px rgba(0, 0, 0, 0.3);
+   --shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px -1px rgba(0, 0, 0, 0.3);
+   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+   --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+
+   /* Color Utilities - Dark Mode */
+   --color-overlay-light: rgba(255, 255, 255, 0.05);
+   --color-overlay-dark: rgba(0, 0, 0, 0.3);
+}
+
+/*
+ * NOTE: Utility and component classes are defined in src/ui-foundation/*.
+ * Keep this file token-only to preserve single source of truth.
+ */

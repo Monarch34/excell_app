@@ -1,0 +1,55 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: cef0300fd0fc4d2a87a85fa2093c6b283ea36f4b  # v5.0.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-merge-conflict
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: 0710b94280408eef12748cde4782972942370ad2  # v0.8.0
+    hooks:
+      - id: ruff
+        args: ["--fix"]
+        files: ^backend/(src|tests|scripts)/.*\.py$
+      - id: ruff-format
+        files: ^backend/(src|tests|scripts)/.*\.py$
+
+  - repo: local
+    hooks:
+      - id: backend-boundaries
+        name: backend-boundaries
+        entry: python backend/scripts/check_backend_boundaries.py
+        language: system
+        pass_filenames: false
+        files: ^backend/src/.*\.py$
+
+      - id: api-contract-check
+        name: api-contract-check
+        entry: python backend/scripts/sync_api_contract.py --check
+        language: system
+        pass_filenames: false
+        files: ^(backend/src/api/.*\.py|backend/scripts/sync_api_contract.py|docs/openapi.json|frontend/src/types/generated/openapi.ts)$
+        stages: [pre-push]
+
+      - id: backend-tests-smoke
+        name: backend-tests-smoke
+        entry: python -m pytest -q backend/tests/integration/test_api_metrics_export.py backend/tests/unit/services/test_chart_generator.py
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+
+      - id: frontend-lint
+        name: frontend-lint
+        entry: npm --prefix frontend run lint
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+
+      - id: frontend-type-check
+        name: frontend-type-check
+        entry: npm --prefix frontend run type-check
+        language: system
+        pass_filenames: false
+        stages: [pre-push]

@@ -1,0 +1,68 @@
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+# Markers for test categorization
+markers = [
+    "unit: Unit tests (fast, isolated)",
+    "integration: Integration tests (slower, may use real files)",
+    "snapshot: Snapshot/regression tests",
+    "slow: Tests that take longer to run",
+]
+
+# Default options
+addopts = [
+    "-v",
+    "--strict-markers",
+    "-ra",
+    "--tb=short",
+    "--durations=10",
+    "-p",
+    "no:cacheprovider",
+]
+
+# Coverage configuration
+[tool.coverage.run]
+source = ["src"]
+branch = true
+omit = [
+    "src/ui/*",
+    "*/__init__.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+]
+fail_under = 0
+show_missing = true
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+src = ["src", "tests", "scripts"]
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "I",
+    "B",
+    "UP",
+]
+ignore = [
+    "E501",  # formatting handles long lines
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"

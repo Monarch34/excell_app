@@ -1,0 +1,39 @@
+/* Notices */
+.ui-notice {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  padding: 0.55rem 0.7rem;
+}
+
+.ui-notice--ghost {
+  background: transparent;
+  border-color: transparent;
+}
+
+.ui-notice--solid.ui-notice--info {
+  background: color-mix(in srgb, var(--primary-500) 12%, var(--surface-ground));
+  border-color: color-mix(in srgb, var(--primary-500) 28%, var(--surface-border));
+}
+
+.ui-notice--ghost.ui-notice--info {
+  color: var(--text-color-secondary);
+}
+
+.ui-notice--solid.ui-notice--success {
+  background: color-mix(in srgb, var(--success-color) 12%, var(--surface-ground));
+  border-color: color-mix(in srgb, var(--success-color) 24%, var(--surface-border));
+}
+
+.ui-notice--solid.ui-notice--warn {
+  background: color-mix(in srgb, var(--warning-color) 12%, var(--surface-ground));
+  border-color: color-mix(in srgb, var(--warning-color) 30%, var(--surface-border));
+}
+
+.ui-notice--solid.ui-notice--error {
+  background: color-mix(in srgb, var(--error-color) 12%, var(--surface-ground));
+  border-color: color-mix(in srgb, var(--error-color) 28%, var(--surface-border));
+}
+

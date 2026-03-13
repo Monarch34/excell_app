@@ -1,0 +1,38 @@
+.app-dark {
+  --ui-panel-bg: color-mix(in srgb, var(--surface-card) 88%, var(--surface-section));
+  --ui-panel-tint-strength: 8%;
+  --ui-panel-tint-color: var(--primary-400);
+  --ui-panel-shadow: var(--shadow-md);
+  --ui-panel-border: 1px solid color-mix(in srgb, var(--surface-border) 88%, transparent);
+  --ui-subpanel-bg: color-mix(in srgb, var(--surface-card) 95%, var(--surface-section));
+  --ui-subpanel-border: color-mix(in srgb, var(--surface-border) 86%, transparent);
+  --ui-field-row-bg: color-mix(in srgb, var(--surface-section) 54%, var(--surface-card));
+  --ui-field-row-border: color-mix(in srgb, var(--surface-border) 62%, transparent);
+  --ui-focus-ring: 0 0 0 3px color-mix(in srgb, var(--primary-400) 28%, transparent);
+  --ui-hover-border: color-mix(in srgb, var(--primary-300) 68%, var(--surface-border));
+}
+
+.app-dark .nav-link-active {
+  color: var(--primary-300);
+  border-color: color-mix(in srgb, var(--primary-300) 45%, var(--surface-border));
+  background: color-mix(in srgb, var(--primary-400) 16%, var(--surface-card));
+}
+
+.app-dark .ui-region-item.is-selected,
+.app-dark .ui-calc-item--active,
+.app-dark .ui-select-item--selected {
+  color: var(--primary-300);
+  background: color-mix(in srgb, var(--primary-400) 18%, var(--surface-card));
+}
+
+.app-dark .ui-dialog-surface.p-dialog {
+  border-color: color-mix(in srgb, var(--surface-border) 92%, transparent);
+}
+
+.app-dark .ui-data-table .p-datatable-thead > tr > th {
+  color: color-mix(in srgb, var(--text-color-secondary) 90%, var(--text-color));
+}
+
+.app-dark .ui-notice--solid.ui-notice--info {
+  background: color-mix(in srgb, var(--primary-400) 14%, var(--surface-card));
+}

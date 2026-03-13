@@ -1,0 +1,130 @@
+:root {
+  --primary-50: var(--color-primary-50);
+  --primary-100: var(--color-primary-100);
+  --primary-200: var(--color-primary-200);
+  --primary-300: var(--color-primary-300);
+  --primary-400: var(--color-primary-400);
+  --primary-500: var(--color-primary-500);
+  --primary-600: var(--color-primary-600);
+  --primary-700: var(--color-primary-700);
+  --primary-800: var(--color-primary-800);
+
+  --success-color: var(--color-success);
+  --warning-color: var(--color-warning);
+  --error-color: var(--color-error);
+  --help-color: var(--color-accent-help);
+  --separator-color: var(--color-separator-default);
+
+  --ui-focus-ring: 0 0 0 3px color-mix(in srgb, var(--primary-500) 25%, transparent);
+  --ui-focus-border: var(--primary-500);
+  --ui-hover-border: color-mix(in srgb, var(--primary-400) 72%, var(--surface-border));
+
+  --ui-shell-max-width: 1280px;
+  --ui-sidebar-width: 240px;
+  --ui-sidebar-collapsed: 72px;
+  --ui-topbar-height: 64px;
+
+  --ui-panel-bg: var(--surface-card);
+  --ui-panel-tint-strength: 6%;
+  --ui-panel-tint-color: var(--primary-500);
+  --ui-panel-border: 1px solid color-mix(in srgb, var(--surface-border) 84%, transparent);
+  --ui-panel-radius: var(--radius-lg);
+  --ui-panel-shadow: var(--shadow-base);
+  --ui-subpanel-bg: color-mix(in srgb, var(--surface-card) 99%, var(--surface-ground));
+  --ui-subpanel-border: color-mix(in srgb, var(--surface-border) 66%, transparent);
+  --ui-field-row-bg: color-mix(in srgb, var(--surface-card) 95%, var(--surface-section));
+  --ui-field-row-border: color-mix(in srgb, var(--surface-border) 58%, transparent);
+
+  --ui-control-height: var(--height-input-md);
+  --ui-control-radius: var(--radius-md);
+  --ui-action-icon-size: 1.9rem;
+  --ui-param-control-height: 2.2rem;
+  --ui-param-action-col-width: 2.2rem;
+  --ui-field-label-row-height: 0.95rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  width: 100%;
+  min-height: 100%;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--surface-ground);
+  color: var(--text-color);
+  font-family: var(--font-family-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body,
+input,
+button,
+textarea,
+.p-component {
+  font-family: var(--font-family-base);
+}
+
+a {
+  color: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: color-mix(in srgb, var(--surface-ground) 86%, var(--surface-card));
+}
+
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--surface-border) 85%, var(--text-color-secondary));
+  border: 2px solid transparent;
+  border-radius: var(--radius-full);
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--primary-500) 64%, var(--surface-border));
+  background-clip: content-box;
+}
+
+.text-color {
+  color: var(--text-color);
+}
+
+.text-color-secondary {
+  color: var(--text-color-secondary);
+}
+
+.text-primary {
+  color: var(--primary-500);
+}
+
+.ui-color-info {
+  color: var(--primary-500);
+}
+
+.ui-color-success {
+  color: var(--success-color);
+}
+
+.ui-color-warning {
+  color: var(--warning-color);
+}
+
+.ui-color-error {
+  color: var(--error-color);
+}
+
+.ui-color-error-strong {
+  color: color-mix(in srgb, var(--error-color) 82%, var(--text-color));
+}

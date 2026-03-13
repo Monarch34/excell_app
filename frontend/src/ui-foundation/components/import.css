@@ -1,0 +1,108 @@
+/* upload/import */
+.ui-upload-shell {
+  min-height: max(52vh, 360px);
+  display: grid;
+  align-items: start;
+}
+
+.ui-upload-card-frame {
+  width: min(100%, 880px);
+  margin-inline: auto;
+  overflow: visible;
+}
+
+.ui-upload-card {
+  border-radius: var(--radius-xl);
+}
+
+.ui-upload-card--clean {
+  padding: clamp(1rem, 1.3vw, 1.3rem);
+}
+
+.ui-upload-drop-zone {
+  width: 100%;
+  border: 1px solid color-mix(in srgb, var(--surface-border) 88%, transparent);
+  border-radius: var(--radius-lg);
+  padding: 0;
+  background: color-mix(in srgb, var(--surface-section) 72%, var(--surface-card));
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color var(--duration-fast) var(--ease-in-out), background-color var(--duration-fast) var(--ease-in-out);
+  min-height: clamp(190px, 30vh, 240px);
+}
+
+.ui-upload-drop-zone:hover,
+.ui-upload-drop-zone--active {
+  border-color: color-mix(in srgb, var(--primary-500) 52%, var(--surface-border));
+  background: color-mix(in srgb, var(--primary-500) 8%, var(--surface-card));
+}
+
+.ui-upload-drop-zone:focus-visible {
+  outline: none;
+  box-shadow: var(--ui-focus-ring);
+}
+
+.ui-upload-drop-body {
+  padding: clamp(1rem, 2vw, 1.45rem);
+  display: grid;
+  place-items: center;
+  gap: 0.55rem;
+  text-align: center;
+}
+
+.ui-upload-choose-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.75rem;
+  margin-top: 0.15rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--surface-border);
+  background: var(--surface-card);
+  color: var(--text-color-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+.ui-upload-icon-circle {
+  width: clamp(2.7rem, 7vw, 3.3rem);
+  aspect-ratio: 1;
+  border-radius: var(--radius-full);
+  display: grid;
+  place-items: center;
+  color: var(--text-color-inverse);
+  background: linear-gradient(145deg, var(--primary-600), var(--primary-500));
+  box-shadow: var(--shadow-sm);
+  font-size: 0.95rem;
+}
+
+.ui-import-file-toolbar,
+.ui-import-reference-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+}
+
+.ui-import-file-meta,
+.ui-import-reference-hint,
+.ui-import-reference-selected {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.ui-import-reference-hint.ui-notice {
+  padding: 0;
+}
+
+.ui-import-footer-actions,
+.ui-step-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+

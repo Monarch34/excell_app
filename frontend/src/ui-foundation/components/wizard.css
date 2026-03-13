@@ -1,0 +1,79 @@
+/* Wizard */
+.ui-wizard-stepper {
+  --ui-step-circle-size: 2.05rem;
+  width: min(100%, var(--ui-shell-max-width));
+  margin: 0 auto;
+  padding: 0.35rem var(--spacing-md) var(--spacing-lg);
+  display: grid;
+  grid-template-columns: repeat(var(--wizard-step-count, 6), minmax(0, 1fr));
+  gap: var(--spacing-sm);
+  position: relative;
+}
+
+.ui-wizard-progress-track {
+  position: absolute;
+  inset:
+    calc(0.35rem + (var(--ui-step-circle-size) / 2))
+    calc((100% / var(--wizard-step-count, 6)) / 2)
+    auto;
+  height: 0.14rem;
+  border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--surface-border) 76%, transparent);
+  z-index: 0;
+}
+
+.ui-wizard-progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--primary-500), var(--primary-400));
+  transition: width var(--duration-base) var(--ease-in-out);
+}
+
+.ui-step-item {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  text-align: center;
+}
+
+.ui-step-circle {
+  width: var(--ui-step-circle-size);
+  height: var(--ui-step-circle-size);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--surface-border);
+  background: color-mix(in srgb, var(--surface-card) 82%, var(--surface-section));
+  color: var(--text-color-secondary);
+  display: grid;
+  place-items: center;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--surface-ground) 86%, transparent);
+}
+
+.ui-step-circle.completed {
+  border-color: var(--primary-500);
+  color: var(--text-color-inverse);
+  background: var(--primary-500);
+}
+
+.ui-step-circle.active {
+  border-color: color-mix(in srgb, var(--primary-500) 85%, var(--surface-border));
+  color: var(--primary-500);
+  background: color-mix(in srgb, var(--primary-500) 12%, var(--surface-card));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary-500) 20%, transparent);
+}
+
+.ui-step-label {
+  font-size: 0.76rem;
+  color: var(--text-color-secondary);
+  line-height: 1.25;
+  max-width: 9rem;
+}
+
+.ui-step-label.active {
+  color: var(--text-color);
+  font-weight: var(--font-weight-semibold);
+}
+

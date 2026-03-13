@@ -1,0 +1,9 @@
+/* Tooltip helper */
+.ui-tooltip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-color-secondary);
+  cursor: help;
+}
+

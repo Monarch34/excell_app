@@ -1,0 +1,57 @@
+/* tables */
+.ui-data-table {
+  overflow: hidden;
+}
+
+.ui-data-table .p-datatable-header,
+.ui-data-table .p-paginator {
+  background: color-mix(in srgb, var(--surface-card) 90%, var(--surface-ground));
+  border: 0;
+}
+
+.ui-data-table .p-datatable-header {
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.ui-data-table .p-datatable-thead > tr > th {
+  background: color-mix(in srgb, var(--surface-section) 84%, var(--surface-card));
+  border-color: var(--surface-border);
+  color: var(--text-color-secondary);
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: var(--font-weight-semibold);
+}
+
+.ui-data-table .p-datatable-tbody > tr > td {
+  border-color: color-mix(in srgb, var(--surface-border) 85%, transparent);
+}
+
+.ui-summary-table .p-datatable-thead > tr > th {
+  color: var(--text-color);
+}
+
+.ui-summary-table .p-datatable-tbody > tr > td {
+  color: var(--text-color);
+}
+
+.ui-data-table--clickable-rows .p-datatable-tbody > tr {
+  cursor: pointer;
+}
+
+.ui-data-table--clickable-rows .p-datatable-tbody > tr:hover {
+  background: color-mix(in srgb, var(--surface-hover) 75%, var(--surface-card));
+}
+
+.ui-data-table .p-datatable-tbody > tr.ui-selected-row {
+  background: var(--surface-selected-bg);
+  box-shadow: inset 3px 0 0 var(--surface-selected-border);
+}
+
+.ui-data-table--hide-sort-ui .p-sortable-column-icon,
+.ui-data-table--hide-sort-ui .p-column-sort-icon,
+.ui-data-table--hide-sort-ui .p-datatable-sort-icon,
+.ui-data-table--hide-sort-ui .p-column-header-content > .p-sortable-column-badge {
+  display: none;
+}
+

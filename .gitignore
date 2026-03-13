@@ -1,0 +1,265 @@
+# =============================================================================
+# .gitignore — Strict security-focused ignore rules
+# =============================================================================
+
+# =============================================================================
+# [DOT FILES & FOLDERS] — Ignore everything starting with a dot
+# =============================================================================
+# Block ALL hidden files and directories by default
+.*
+.*/**
+
+# Exceptions — essential project files that MUST be tracked
+!.gitignore
+!.gitattributes
+!.pre-commit-config.yaml
+!.github/
+!.github/**
+!.dockerignore
+!.env.example
+!.env.template
+!.env.sample
+
+
+# =============================================================================
+# [SECRETS & CREDENTIALS] — NEVER commit these
+# =============================================================================
+# Environment files — all variations
+.env
+.env.*
+!.env.example
+!.env.template
+!.env.sample
+
+# Secret/credential files
+secrets.toml
+*secret*
+*credential*
+*_secret*
+*_credential*
+
+# Key / certificate files
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.der
+*.pkcs12
+
+# Token files
+*.token
+*.tokens
+*.jwt
+
+# Config files with potential secrets
+config.local.*
+*.local.json
+*.local.toml
+*.local.yaml
+*.local.yml
+
+# Streamlit secrets
+.streamlit/secrets.toml
+
+# =============================================================================
+# [DATABASE & DATA FILES] — Local DB and data dumps
+# =============================================================================
+# SQLite / generic databases
+**/*.db
+**/*.db-journal
+**/*.db-wal
+**/*.db-shm
+**/*.sqlite
+**/*.sqlite3
+
+# Data exports / dumps
+*.sql
+*.dump
+*.bak
+
+# =============================================================================
+# [USER DATA FILES] — Uploaded / generated data
+# =============================================================================
+# Spreadsheets and CSVs that may contain PII / raw data
+*.xlsx
+*.xls
+*.xlsm
+*.csv
+# Exception: specific, controlled test fixture data is OK
+!**/tests/data/sample.csv
+!**/tests/fixtures/sample.csv
+
+# Sample data directory (may contain proprietary data)
+sample_data/
+
+# JSON config snapshots generated at runtime
+frontend/tensile_config.json
+**/tensile_config.json
+**/deneme_config.json
+
+# Output directories
+output/
+frontend/output/
+
+# =============================================================================
+# [PYTHON]
+# =============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyd
+.Python
+.python-version
+
+# Virtual environments
+venv/
+env/
+.venv/
+venv_stable/
+venv_taipy/
+.env/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+*.whl
+MANIFEST
+pip-wheel-metadata/
+
+# Testing & coverage
+.coverage
+.coverage.*
+.hypothesis/
+htmlcov/
+.pytest_cache/
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+
+# Type checking
+.mypy_cache/
+.dmypy.json
+.pyre/
+.pytype/
+
+# Linting cache
+.ruff_cache/
+
+# =============================================================================
+# [NODE / FRONTEND]
+# =============================================================================
+node_modules/
+frontend/node_modules/
+frontend/.npm-cache/
+.npm/
+.yarn/
+.pnp.*
+.pnp.js
+
+# Build output
+frontend/dist/
+frontend/.vite/
+frontend/.cache/
+dist/
+
+# Playwright test output
+output/playwright/
+frontend/tests/visual/baseline/
+playwright-report/
+test-results/
+
+# =============================================================================
+# [DOCKER]
+# =============================================================================
+# Docker inspection / debug output
+**/test_inspect.json
+
+# =============================================================================
+# [LOGS & TEMP FILES]
+# =============================================================================
+*.log
+logs/
+*.log.*
+logs/*.log
+job_log.txt
+dev_logs.txt
+log.txt
+audit_output.txt
+frontend/audit_output.txt
+**/test_out.txt
+**/test-out.txt
+
+# =============================================================================
+# [IDE & EDITOR]
+# =============================================================================
+# Note: .vscode/, .idea/, .claude/, .cursor/, .codex/, .gemini/ etc.
+# are all already covered by the .* rule at the top of this file.
+
+# Swap / temp editor files (don't start with dot, need explicit rules)
+*.swp
+*.swo
+*.swn
+*~
+
+
+# =============================================================================
+# [OS GENERATED]
+# =============================================================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+nul
+
+# =============================================================================
+# [GENERATED MEDIA] (not source assets)
+# =============================================================================
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+*.ico
+*.webp
+*.svg
+# Keep source SVG assets if needed:
+# !src/assets/*.svg
+
+# =============================================================================
+# [NICEGUI / STREAMLIT]
+# =============================================================================
+.nicegui/
+.streamlit/
+
+# =============================================================================
+# [DOCUMENTATION — ARCHIVE & INTERNAL] 
+# =============================================================================
+# Don't expose internal planning docs / old API snapshots
+docs/archive/
+docs/*
+!docs/openapi.json
+!docs/*.md
+!docs/**/*.md
+
+# =============================================================================
+# [MISC PROJECT-SPECIFIC]
+# =============================================================================
+# Test debugging artifacts
+reset_tree.js
+test-chart.js
+
+# Archive / deprecated
+archive/

@@ -1,0 +1,19 @@
+/* dialogs */
+.ui-dialog-surface.p-dialog {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--surface-border);
+  background: var(--surface-card);
+  box-shadow: var(--shadow-xl);
+  overflow: hidden;
+}
+
+.ui-dialog-surface .p-dialog-header,
+.ui-dialog-surface .p-dialog-content,
+.ui-dialog-surface .p-dialog-footer {
+  background: var(--surface-card);
+}
+
+.ui-dialog-surface .p-dialog-header {
+  border-bottom: 1px solid var(--surface-border);
+}
+

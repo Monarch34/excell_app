@@ -1,0 +1,2217 @@
+{
+  "components": {
+    "schemas": {
+      "AnalysisMetricModel": {
+        "properties": {
+          "chart_id": {
+            "default": "",
+            "title": "Chart Id",
+            "type": "string"
+          },
+          "chart_title": {
+            "default": "",
+            "title": "Chart Title",
+            "type": "string"
+          },
+          "id": {
+            "default": "",
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "unit": {
+            "default": "",
+            "title": "Unit",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "type": "number"
+          },
+          "x_column": {
+            "default": "",
+            "title": "X Column",
+            "type": "string"
+          },
+          "y_column": {
+            "default": "",
+            "title": "Y Column",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "value"
+        ],
+        "title": "AnalysisMetricModel",
+        "type": "object"
+      },
+      "AnnotationModel": {
+        "description": "Chart annotation marker.",
+        "properties": {
+          "show_arrow": {
+            "default": true,
+            "title": "Show Arrow",
+            "type": "boolean"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          },
+          "x": {
+            "title": "X",
+            "type": "number"
+          },
+          "y": {
+            "title": "Y",
+            "type": "number"
+          }
+        },
+        "required": [
+          "x",
+          "y",
+          "text"
+        ],
+        "title": "AnnotationModel",
+        "type": "object"
+      },
+      "AreaSpecModel": {
+        "properties": {
+          "baseline": {
+            "default": 0.0,
+            "title": "Baseline",
+            "type": "number"
+          },
+          "label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Label"
+          },
+          "mode": {
+            "enum": [
+              "positive",
+              "negative",
+              "total"
+            ],
+            "title": "Mode",
+            "type": "string"
+          },
+          "x_column": {
+            "title": "X Column",
+            "type": "string"
+          },
+          "y_column": {
+            "title": "Y Column",
+            "type": "string"
+          }
+        },
+        "required": [
+          "mode",
+          "x_column",
+          "y_column"
+        ],
+        "title": "AreaSpecModel",
+        "type": "object"
+      },
+      "BaselineSpecModel": {
+        "description": "Baseline configuration for area calculations.",
+        "properties": {
+          "regions": {
+            "description": "Selected regions: 'top-left', 'top-right', 'bottom-left', 'bottom-right', or 'all'",
+            "items": {
+              "type": "string"
+            },
+            "title": "Regions",
+            "type": "array"
+          },
+          "x_baseline": {
+            "default": 0.0,
+            "title": "X Baseline",
+            "type": "number"
+          },
+          "y_baseline": {
+            "default": 0.0,
+            "title": "Y Baseline",
+            "type": "number"
+          }
+        },
+        "title": "BaselineSpecModel",
+        "type": "object"
+      },
+      "Body_upload_file_api_v3_datasets_upload_post": {
+        "properties": {
+          "file": {
+            "format": "binary",
+            "title": "File",
+            "type": "string"
+          }
+        },
+        "required": [
+          "file"
+        ],
+        "title": "Body_upload_file_api_v3_datasets_upload_post",
+        "type": "object"
+      },
+      "CalculateMetricsRequest": {
+        "description": "Request for backend metrics calculation.",
+        "properties": {
+          "charts": {
+            "description": "Chart specifications for which to calculate metrics",
+            "items": {
+              "$ref": "#/components/schemas/MetricsChartSpec"
+            },
+            "title": "Charts",
+            "type": "array"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Processed data rows",
+            "title": "Data"
+          },
+          "run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Optional processing run identifier to reuse processed data",
+            "title": "Run Id"
+          }
+        },
+        "required": [
+          "charts"
+        ],
+        "title": "CalculateMetricsRequest",
+        "type": "object"
+      },
+      "CalculateMetricsResponse": {
+        "description": "Response with calculated metrics for all charts.",
+        "properties": {
+          "metrics": {
+            "items": {
+              "$ref": "#/components/schemas/ChartMetrics"
+            },
+            "title": "Metrics",
+            "type": "array"
+          }
+        },
+        "required": [
+          "metrics"
+        ],
+        "title": "CalculateMetricsResponse",
+        "type": "object"
+      },
+      "ChartMetrics": {
+        "description": "Calculated metrics for a single chart.",
+        "properties": {
+          "area_by_region": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "title": "Area By Region",
+            "type": "object"
+          },
+          "area_negative": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Area Negative"
+          },
+          "area_positive": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Area Positive"
+          },
+          "area_total": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Area Total"
+          },
+          "chart_id": {
+            "title": "Chart Id",
+            "type": "string"
+          },
+          "y_column": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Y Column"
+          }
+        },
+        "required": [
+          "chart_id"
+        ],
+        "title": "ChartMetrics",
+        "type": "object"
+      },
+      "ChartScopeModel": {
+        "description": "Data filtering scope for chart.",
+        "properties": {
+          "mode": {
+            "anyOf": [
+              {
+                "const": "range",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mode"
+          },
+          "x_max": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "X Max"
+          },
+          "x_min": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "X Min"
+          },
+          "y_max": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Y Max"
+          },
+          "y_min": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Y Min"
+          }
+        },
+        "title": "ChartScopeModel",
+        "type": "object"
+      },
+      "ChartSpecModel": {
+        "properties": {
+          "annotations": {
+            "items": {
+              "$ref": "#/components/schemas/AnnotationModel"
+            },
+            "title": "Annotations",
+            "type": "array"
+          },
+          "area_spec": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AreaSpecModel"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "baseline_spec": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BaselineSpecModel"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "chart_type": {
+            "default": "line",
+            "enum": [
+              "line",
+              "scatter",
+              "area"
+            ],
+            "title": "Chart Type",
+            "type": "string"
+          },
+          "fill_color": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fill Color"
+          },
+          "fill_opacity": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": 0.4,
+            "title": "Fill Opacity"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "line_color": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Line Color"
+          },
+          "line_width": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Line Width"
+          },
+          "marker_size": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Marker Size"
+          },
+          "scope": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ChartScopeModel"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": {
+            "default": "",
+            "title": "Title",
+            "type": "string"
+          },
+          "x_axis_label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "X Axis Label"
+          },
+          "x_column": {
+            "title": "X Column",
+            "type": "string"
+          },
+          "y_axis_label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Y Axis Label"
+          },
+          "y_columns": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Y Columns",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "x_column"
+        ],
+        "title": "ChartSpecModel",
+        "type": "object"
+      },
+      "ColumnLayoutSpec": {
+        "description": "Column ordering, grouping, and separator specification.",
+        "properties": {
+          "column_order": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Column Order",
+            "type": "array"
+          },
+          "linked_groups": {
+            "items": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "title": "Linked Groups",
+            "type": "array"
+          },
+          "matching_groups": {
+            "items": {
+              "$ref": "#/components/schemas/MatchingGroupSpecModel"
+            },
+            "title": "Matching Groups",
+            "type": "array"
+          },
+          "separator_color": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Separator Color"
+          },
+          "separator_indices": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Separator Indices",
+            "type": "array"
+          }
+        },
+        "title": "ColumnLayoutSpec",
+        "type": "object"
+      },
+      "ConfigSaveRequest": {
+        "properties": {
+          "config_data": {
+            "additionalProperties": true,
+            "title": "Config Data",
+            "type": "object"
+          },
+          "domain": {
+            "default": "",
+            "title": "Domain",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "config_data"
+        ],
+        "title": "ConfigSaveRequest",
+        "type": "object"
+      },
+      "ConfigSaveResponse": {
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "integer"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "id"
+        ],
+        "title": "ConfigSaveResponse",
+        "type": "object"
+      },
+      "DerivedColumnModel": {
+        "properties": {
+          "dependencies": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Dependencies",
+            "type": "array"
+          },
+          "description": {
+            "default": "",
+            "title": "Description",
+            "type": "string"
+          },
+          "enabled": {
+            "default": true,
+            "title": "Enabled",
+            "type": "boolean"
+          },
+          "formula": {
+            "title": "Formula",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "unit": {
+            "default": "",
+            "title": "Unit",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "formula"
+        ],
+        "title": "DerivedColumnModel",
+        "type": "object"
+      },
+      "DerivedParameterDef": {
+        "description": "A scalar value computed from input parameters before formula evaluation.",
+        "properties": {
+          "formula": {
+            "description": "Formula using parameter names (e.g., 'width * thickness')",
+            "title": "Formula",
+            "type": "string"
+          },
+          "name": {
+            "description": "Variable name (e.g., 'A0')",
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "formula"
+        ],
+        "title": "DerivedParameterDef",
+        "type": "object"
+      },
+      "DetectColumnsRequest": {
+        "properties": {
+          "data": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Data",
+            "type": "array"
+          },
+          "patterns": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Patterns"
+          }
+        },
+        "title": "DetectColumnsRequest",
+        "type": "object"
+      },
+      "DetectColumnsResponse": {
+        "properties": {
+          "suggestions": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Suggestions",
+            "type": "object"
+          }
+        },
+        "required": [
+          "suggestions"
+        ],
+        "title": "DetectColumnsResponse",
+        "type": "object"
+      },
+      "ExportRequest": {
+        "description": "Extended export request for the 4-sheet XLSX report.",
+        "properties": {
+          "charts": {
+            "items": {
+              "$ref": "#/components/schemas/ChartSpecModel"
+            },
+            "title": "Charts",
+            "type": "array"
+          },
+          "column_colors": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Column name -> hex color (e.g. 'D6EAF8')",
+            "title": "Column Colors",
+            "type": "object"
+          },
+          "column_layout": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ColumnLayoutSpec"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "column_mapping": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Mapping of logical columns to CSV columns",
+            "title": "Column Mapping"
+          },
+          "custom_filename": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Custom Filename"
+          },
+          "dataset_id": {
+            "description": "Uploaded dataset identifier",
+            "title": "Dataset Id",
+            "type": "string"
+          },
+          "derived_columns": {
+            "items": {
+              "$ref": "#/components/schemas/DerivedColumnModel"
+            },
+            "title": "Derived Columns",
+            "type": "array"
+          },
+          "derived_parameters": {
+            "description": "Derived parameters to compute before formulas",
+            "items": {
+              "$ref": "#/components/schemas/DerivedParameterDef"
+            },
+            "title": "Derived Parameters",
+            "type": "array"
+          },
+          "header_mapping": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Column key -> display label mapping for formula alias resolution",
+            "title": "Header Mapping",
+            "type": "object"
+          },
+          "metrics": {
+            "items": {
+              "$ref": "#/components/schemas/AnalysisMetricModel"
+            },
+            "title": "Metrics",
+            "type": "array"
+          },
+          "operations": {
+            "description": "Generic operations to execute before formulas",
+            "items": {
+              "$ref": "#/components/schemas/OperationSpec"
+            },
+            "title": "Operations",
+            "type": "array"
+          },
+          "parameter_units": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Parameter name -> unit string",
+            "title": "Parameter Units",
+            "type": "object"
+          },
+          "parameters": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "description": "Test parameters (e.g., length, width, thickness)",
+            "title": "Parameters",
+            "type": "object"
+          },
+          "project_name": {
+            "default": "Report",
+            "title": "Project Name",
+            "type": "string"
+          },
+          "reference_index": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Reference row index for REF() function",
+            "title": "Reference Index"
+          },
+          "schema_version": {
+            "default": "1.0",
+            "description": "Export DTO schema version",
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "selected_columns": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Selected Columns",
+            "type": "array"
+          },
+          "units": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Units",
+            "type": "object"
+          },
+          "user_formulas": {
+            "items": {
+              "$ref": "#/components/schemas/UserFormulaModel"
+            },
+            "title": "User Formulas",
+            "type": "array"
+          }
+        },
+        "required": [
+          "dataset_id"
+        ],
+        "title": "ExportRequest",
+        "type": "object"
+      },
+      "FormulaPreviewRequest": {
+        "properties": {
+          "column_mapping": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Mapping of logical columns to CSV columns",
+            "title": "Column Mapping"
+          },
+          "dataset_id": {
+            "description": "Uploaded dataset identifier",
+            "title": "Dataset Id",
+            "type": "string"
+          },
+          "derived_parameters": {
+            "description": "Derived parameters to compute before formulas",
+            "items": {
+              "$ref": "#/components/schemas/DerivedParameterDef"
+            },
+            "title": "Derived Parameters",
+            "type": "array"
+          },
+          "formula": {
+            "title": "Formula",
+            "type": "string"
+          },
+          "header_mapping": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Column key -> display label mapping for formula alias resolution",
+            "title": "Header Mapping",
+            "type": "object"
+          },
+          "parameters": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "description": "Test parameters (e.g., length, width, thickness)",
+            "title": "Parameters",
+            "type": "object"
+          },
+          "reference_index": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Reference row index for REF() function",
+            "title": "Reference Index"
+          },
+          "sample_size": {
+            "default": 50,
+            "description": "Maximum preview rows to evaluate",
+            "maximum": 5000.0,
+            "minimum": 1.0,
+            "title": "Sample Size",
+            "type": "integer"
+          },
+          "sample_start": {
+            "default": 0,
+            "description": "Starting row index for preview window",
+            "maximum": 1000000.0,
+            "minimum": 0.0,
+            "title": "Sample Start",
+            "type": "integer"
+          },
+          "target_type": {
+            "default": "column",
+            "enum": [
+              "column",
+              "parameter"
+            ],
+            "title": "Target Type",
+            "type": "string"
+          },
+          "user_formulas": {
+            "items": {
+              "$ref": "#/components/schemas/UserFormulaModel"
+            },
+            "title": "User Formulas",
+            "type": "array"
+          }
+        },
+        "required": [
+          "dataset_id",
+          "formula"
+        ],
+        "title": "FormulaPreviewRequest",
+        "type": "object"
+      },
+      "FormulaPreviewResponse": {
+        "properties": {
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "error_code": {
+            "anyOf": [
+              {
+                "enum": [
+                  "division",
+                  "variable",
+                  "syntax",
+                  "dataset_expired",
+                  "generic"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Code"
+          },
+          "is_scalar": {
+            "default": false,
+            "title": "Is Scalar",
+            "type": "boolean"
+          },
+          "success": {
+            "title": "Success",
+            "type": "boolean"
+          },
+          "values": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Values",
+            "type": "array"
+          }
+        },
+        "required": [
+          "success"
+        ],
+        "title": "FormulaPreviewResponse",
+        "type": "object"
+      },
+      "FormulaValidateRequest": {
+        "properties": {
+          "available_columns": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Available Columns",
+            "type": "array"
+          },
+          "available_parameters": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Available Parameters",
+            "type": "array"
+          },
+          "formula": {
+            "title": "Formula",
+            "type": "string"
+          }
+        },
+        "required": [
+          "formula"
+        ],
+        "title": "FormulaValidateRequest",
+        "type": "object"
+      },
+      "FormulaValidateResponse": {
+        "properties": {
+          "errors": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Errors",
+            "type": "array"
+          },
+          "referenced_columns": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Referenced Columns",
+            "type": "array"
+          },
+          "valid": {
+            "title": "Valid",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "valid"
+        ],
+        "title": "FormulaValidateResponse",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "version"
+        ],
+        "title": "HealthResponse",
+        "type": "object"
+      },
+      "MatchingGroupSpecModel": {
+        "description": "Column matching group used for export coloring.",
+        "properties": {
+          "color": {
+            "default": "",
+            "title": "Color",
+            "type": "string"
+          },
+          "columns": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Columns",
+            "type": "array"
+          },
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id"
+          },
+          "name": {
+            "default": "",
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "title": "MatchingGroupSpecModel",
+        "type": "object"
+      },
+      "MetricsChartSpec": {
+        "description": "Chart specification for metrics calculation.",
+        "properties": {
+          "area_spec": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AreaSpecModel"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "baseline_spec": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BaselineSpecModel"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "chart_type": {
+            "default": "line",
+            "enum": [
+              "line",
+              "scatter",
+              "area"
+            ],
+            "title": "Chart Type",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "scope": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ChartScopeModel"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": {
+            "default": "",
+            "title": "Title",
+            "type": "string"
+          },
+          "x_column": {
+            "title": "X Column",
+            "type": "string"
+          },
+          "y_columns": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Y Columns",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "x_column",
+          "y_columns"
+        ],
+        "title": "MetricsChartSpec",
+        "type": "object"
+      },
+      "OperationSpec": {
+        "description": "A generic data operation to execute in the processing pipeline.",
+        "properties": {
+          "config": {
+            "additionalProperties": true,
+            "description": "Operation-specific configuration",
+            "title": "Config",
+            "type": "object"
+          },
+          "type": {
+            "description": "Operation type (find_zero, slice_from_index, offset_correction)",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "title": "OperationSpec",
+        "type": "object"
+      },
+      "ProcessRequest": {
+        "properties": {
+          "column_mapping": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Mapping of logical columns to CSV columns",
+            "title": "Column Mapping",
+            "type": "object"
+          },
+          "dataset_id": {
+            "description": "Uploaded dataset identifier",
+            "title": "Dataset Id",
+            "type": "string"
+          },
+          "derived_parameters": {
+            "description": "Derived parameters to compute before formulas",
+            "items": {
+              "$ref": "#/components/schemas/DerivedParameterDef"
+            },
+            "title": "Derived Parameters",
+            "type": "array"
+          },
+          "header_mapping": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Column key -> display label mapping for formula alias resolution",
+            "title": "Header Mapping",
+            "type": "object"
+          },
+          "initial_results": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "description": "Pre-computed values to inject into operation results (e.g., manual_reference_index)",
+            "title": "Initial Results",
+            "type": "object"
+          },
+          "operations": {
+            "description": "Generic operations to execute before formulas",
+            "items": {
+              "$ref": "#/components/schemas/OperationSpec"
+            },
+            "title": "Operations",
+            "type": "array"
+          },
+          "parameters": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "description": "Test parameters (e.g., length, width, thickness)",
+            "title": "Parameters",
+            "type": "object"
+          },
+          "project_name": {
+            "default": "Analysis",
+            "title": "Project Name",
+            "type": "string"
+          },
+          "units": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Units",
+            "type": "object"
+          },
+          "user_formulas": {
+            "items": {
+              "$ref": "#/components/schemas/UserFormulaModel"
+            },
+            "title": "User Formulas",
+            "type": "array"
+          }
+        },
+        "required": [
+          "dataset_id"
+        ],
+        "title": "ProcessRequest",
+        "type": "object"
+      },
+      "ProcessResponse": {
+        "properties": {
+          "processed_data": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Processed Data"
+          },
+          "project_name": {
+            "title": "Project Name",
+            "type": "string"
+          },
+          "results": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": "Results",
+            "type": "object"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          },
+          "units": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Units",
+            "type": "object"
+          }
+        },
+        "required": [
+          "project_name",
+          "units",
+          "run_id"
+        ],
+        "title": "ProcessResponse",
+        "type": "object"
+      },
+      "ProcessRunDataResponse": {
+        "description": "Response for GET /processing/runs/{run_id}/data.",
+        "properties": {
+          "processed_data": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Processed Data",
+            "type": "array"
+          }
+        },
+        "required": [
+          "processed_data"
+        ],
+        "title": "ProcessRunDataResponse",
+        "type": "object"
+      },
+      "SavedConfigDetail": {
+        "description": "Full config entry including the stored JSON payload.",
+        "properties": {
+          "config_data": {
+            "additionalProperties": true,
+            "title": "Config Data",
+            "type": "object"
+          },
+          "created_at": {
+            "title": "Created At",
+            "type": "string"
+          },
+          "domain": {
+            "title": "Domain",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "integer"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "updated_at": {
+            "title": "Updated At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "domain",
+          "created_at",
+          "updated_at",
+          "config_data"
+        ],
+        "title": "SavedConfigDetail",
+        "type": "object"
+      },
+      "SavedConfigSummary": {
+        "description": "Lightweight config listing entry (no payload).",
+        "properties": {
+          "created_at": {
+            "title": "Created At",
+            "type": "string"
+          },
+          "domain": {
+            "title": "Domain",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "integer"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "updated_at": {
+            "title": "Updated At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "domain",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "SavedConfigSummary",
+        "type": "object"
+      },
+      "StatusResponse": {
+        "properties": {
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "title": "StatusResponse",
+        "type": "object"
+      },
+      "UploadResponse": {
+        "properties": {
+          "columns": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Columns",
+            "type": "array"
+          },
+          "dataset_id": {
+            "title": "Dataset Id",
+            "type": "string"
+          },
+          "dtypes": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Dtypes",
+            "type": "object"
+          },
+          "filename": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Filename"
+          },
+          "parameter_units": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Parameter Units",
+            "type": "object"
+          },
+          "parameters": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "title": "Parameters",
+            "type": "object"
+          },
+          "raw_data": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Raw Data",
+            "type": "array"
+          },
+          "units": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Units",
+            "type": "object"
+          }
+        },
+        "required": [
+          "dataset_id",
+          "raw_data",
+          "parameters",
+          "parameter_units",
+          "units",
+          "columns",
+          "dtypes"
+        ],
+        "title": "UploadResponse",
+        "type": "object"
+      },
+      "UserFormulaModel": {
+        "properties": {
+          "description": {
+            "default": "",
+            "title": "Description",
+            "type": "string"
+          },
+          "enabled": {
+            "default": true,
+            "title": "Enabled",
+            "type": "boolean"
+          },
+          "formula": {
+            "title": "Formula",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "unit": {
+            "default": "",
+            "title": "Unit",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "formula"
+        ],
+        "title": "UserFormulaModel",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "title": "Data Analysis API",
+    "version": "3.0.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/v3/charts/metrics": {
+      "post": {
+        "description": "Calculate chart metrics for configured area charts with named outputs.",
+        "operationId": "calculate_metrics_api_v3_charts_metrics_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CalculateMetricsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalculateMetricsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Metrics",
+        "tags": [
+          "charts"
+        ]
+      }
+    },
+    "/api/v3/configs": {
+      "get": {
+        "operationId": "list_configs_api_v3_configs_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "domain",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Domain"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/SavedConfigSummary"
+                  },
+                  "title": "Response List Configs Api V3 Configs Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Configs",
+        "tags": [
+          "configs"
+        ]
+      },
+      "post": {
+        "operationId": "create_config_api_v3_configs_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfigSaveRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfigSaveResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Config",
+        "tags": [
+          "configs"
+        ]
+      }
+    },
+    "/api/v3/configs/limits": {
+      "get": {
+        "description": "Return application-wide limits so the frontend doesn't need to hardcode them.",
+        "operationId": "get_limits_api_v3_configs_limits_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Limits",
+        "tags": [
+          "configs"
+        ]
+      }
+    },
+    "/api/v3/configs/{config_id}": {
+      "delete": {
+        "operationId": "remove_config_api_v3_configs__config_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "config_id",
+            "required": true,
+            "schema": {
+              "exclusiveMinimum": 0,
+              "title": "Config Id",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatusResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Remove Config",
+        "tags": [
+          "configs"
+        ]
+      },
+      "get": {
+        "operationId": "fetch_config_api_v3_configs__config_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "config_id",
+            "required": true,
+            "schema": {
+              "exclusiveMinimum": 0,
+              "title": "Config Id",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SavedConfigDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Fetch Config",
+        "tags": [
+          "configs"
+        ]
+      }
+    },
+    "/api/v3/datasets/detect-columns": {
+      "post": {
+        "operationId": "detect_columns_api_v3_datasets_detect_columns_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DetectColumnsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetectColumnsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Detect Columns",
+        "tags": [
+          "datasets"
+        ]
+      }
+    },
+    "/api/v3/datasets/upload": {
+      "post": {
+        "description": "Upload CSV file and return dataset_id + dataset preview metadata.",
+        "operationId": "upload_file_api_v3_datasets_upload_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_file_api_v3_datasets_upload_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Upload File",
+        "tags": [
+          "datasets"
+        ]
+      }
+    },
+    "/api/v3/formulas/preview": {
+      "post": {
+        "description": "Evaluate formula on a data sample and return preview values using the main engine.",
+        "operationId": "preview_formula_api_v3_formulas_preview_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FormulaPreviewRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FormulaPreviewResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Preview Formula",
+        "tags": [
+          "formulas"
+        ]
+      }
+    },
+    "/api/v3/formulas/validate": {
+      "post": {
+        "description": "Lightweight syntax + security check for a formula.\nDoes NOT require any data \u2014 runs on every keystroke (debounced).",
+        "operationId": "validate_formula_api_v3_formulas_validate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FormulaValidateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FormulaValidateResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Validate Formula",
+        "tags": [
+          "formulas"
+        ]
+      }
+    },
+    "/api/v3/health": {
+      "get": {
+        "operationId": "health_check_api_v3_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Health Check",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/api/v3/processing/run": {
+      "post": {
+        "description": "Run data processing pipeline with operations and formulas.",
+        "operationId": "process_data_api_v3_processing_run_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProcessRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Process Data",
+        "tags": [
+          "processing"
+        ]
+      }
+    },
+    "/api/v3/processing/runs/{run_id}/data": {
+      "get": {
+        "operationId": "get_run_data_api_v3_processing_runs__run_id__data_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRunDataResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Run Data",
+        "tags": [
+          "processing"
+        ]
+      }
+    },
+    "/api/v3/reports/xlsx": {
+      "post": {
+        "description": "Generate the XLSX report.",
+        "operationId": "export_xlsx_api_v3_reports_xlsx_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExportRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Export Xlsx",
+        "tags": [
+          "reports"
+        ]
+      }
+    }
+  }
+}

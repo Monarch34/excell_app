@@ -1,0 +1,55 @@
+.fade-in {
+  animation: ui-fade-in var(--duration-slow) var(--ease-out);
+}
+
+.ui-fade-enter-active,
+.ui-fade-leave-active,
+.ui-status-fade-enter-active,
+.ui-status-fade-leave-active {
+  transition: opacity var(--duration-base) var(--ease-in-out), transform var(--duration-base) var(--ease-in-out);
+}
+
+.ui-fade-enter-from,
+.ui-fade-leave-to,
+.ui-status-fade-enter-from,
+.ui-status-fade-leave-to {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.ui-chart-expand-enter-active,
+.ui-chart-expand-leave-active {
+  transition: max-height var(--duration-base) var(--ease-in-out), opacity var(--duration-fast) var(--ease-in-out);
+}
+
+.ui-chart-expand-enter-from,
+.ui-chart-expand-leave-to {
+  max-height: 0;
+  opacity: 0;
+}
+
+.ui-chart-expand-enter-to,
+.ui-chart-expand-leave-from {
+  max-height: 2500px;
+  opacity: 1;
+}
+
+@keyframes ui-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes ui-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

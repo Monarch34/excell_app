@@ -1,0 +1,30 @@
+/* Footer actions */
+.ui-nav-footer {
+  width: min(100%, var(--ui-shell-max-width));
+  margin: 0 auto var(--spacing-sm);
+  border: var(--ui-panel-border);
+  background: color-mix(in srgb, var(--surface-card) 95%, var(--surface-ground));
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-sm) var(--spacing-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-md);
+  position: sticky;
+  bottom: var(--spacing-sm);
+  z-index: var(--z-index-sticky);
+  backdrop-filter: blur(4px);
+}
+
+.ui-nav-footer-left,
+.ui-nav-footer-right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.ui-footer-back-btn.p-button,
+.ui-footer-primary-btn.p-button {
+  min-height: 2.2rem;
+}
+
