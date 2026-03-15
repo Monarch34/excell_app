@@ -4,7 +4,7 @@ import { postData } from '@/services/httpClient';
 export async function uploadFile(file: File): Promise<UploadResponse> {
   const formData = new FormData();
   formData.append('file', file);
-  return postData<UploadResponse, FormData>('/datasets/upload', formData);
+  return postData<UploadResponse, FormData>('/datasets/upload', formData, { timeout: 120_000 });
 }
 
 export async function detectColumns(

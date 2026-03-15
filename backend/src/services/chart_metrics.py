@@ -12,7 +12,7 @@ from src.core.charts.filtering import (
     apply_scope_filters,
     normalize_regions,
 )
-from src.services.xlsx_report_builder import AnalysisMetricSpec
+from src.domain.report_models import AnalysisMetricSpec
 
 
 @dataclass

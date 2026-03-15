@@ -7,7 +7,7 @@ import type { DerivedColumnDef } from '@/shared/types/domain';
 import { validateFormula } from '@/services/formulasApi';
 
 vi.mock('@/services/formulasApi', () => ({
-  validateFormula: vi.fn(async () => ({ errors: [] })),
+  validateFormula: vi.fn(async () => ({ valid: true, errors: [], referenced_columns: [] })),
 }));
 
 const AppFieldStub = defineComponent({
@@ -138,7 +138,9 @@ describe('FormulaEditor', () => {
 
   it('blocks save when API validation returns errors', async () => {
     vi.mocked(validateFormula).mockResolvedValueOnce({
+      valid: false,
       errors: ['Unknown column [Foo]'],
+      referenced_columns: [],
     });
 
     const wrapper = mount(FormulaEditor, {

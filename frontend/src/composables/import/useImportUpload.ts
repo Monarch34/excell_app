@@ -51,15 +51,20 @@ export function useImportUpload() {
       if (configFile.value) {
         if (configFile.value.size > CONFIG_MAX_SIZE) {
           notifyError('Config file too large', 'Maximum config file size is 5 MB.');
-        } else {
-          try {
-            const json = await configFile.value.text();
-            parsedConfig = fromJSON(json);
-          } catch (e: unknown) {
-            const userMessage = toUserMessage(e);
-            logError(e, 'handleUpload:config');
-            notifyError('Config error', userMessage);
-          }
+          replaceDataset(response);
+          notifySuccess('File uploaded', `"${file.name}" uploaded successfully with ${response.raw_data.length} rows`);
+          return;
+        }
+        try {
+          const json = await configFile.value.text();
+          parsedConfig = fromJSON(json);
+        } catch (e: unknown) {
+          const userMessage = toUserMessage(e);
+          logError(e, 'handleUpload:config');
+          notifyError('Config error', userMessage);
+          replaceDataset(response);
+          notifySuccess('File uploaded', `"${file.name}" uploaded successfully with ${response.raw_data.length} rows`);
+          return;
         }
       }
 

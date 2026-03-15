@@ -1,12 +1,14 @@
 from __future__ import annotations
 
+import asyncio
 from io import BytesIO
 
 import pandas as pd
-from fastapi import APIRouter, File, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from pydantic import BaseModel, Field
 
-from src.api.runtime import dataset_store
+from src.api.dataset_store import DatasetStore
+from src.api.dependencies import get_dataset_store
 from src.api.schemas import DetectColumnsResponse, UploadResponse
 from src.api.serialization import dataframe_to_json_records, to_json_safe_value
 from src.api.validators import validate_csv_upload
@@ -24,7 +26,10 @@ class DetectColumnsRequest(BaseModel):
 
 
 @router.post("/upload", response_model=UploadResponse)
-async def upload_file(file: UploadFile = UPLOAD_FILE_REQUIRED):
+async def upload_file(
+    file: UploadFile = UPLOAD_FILE_REQUIRED,
+    ds_store: DatasetStore = Depends(get_dataset_store),
+):
     """Upload CSV file and return dataset_id + dataset preview metadata."""
     logger.info(f"File upload initiated: {file.filename}")
     content = await validate_csv_upload(file)
@@ -34,7 +39,7 @@ async def upload_file(file: UploadFile = UPLOAD_FILE_REQUIRED):
         logger.warning(f"CSV parse failed for {file.filename}: {str(exc)}")
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 
-    snapshot = dataset_store.save(df)
+    snapshot = ds_store.save(df)
     serializable_df = df.where(pd.notnull(df), None)
     dtypes: dict[str, str] = {}
     for column in df.columns:
@@ -57,7 +62,7 @@ async def upload_file(file: UploadFile = UPLOAD_FILE_REQUIRED):
 
 
 @router.post("/detect-columns", response_model=DetectColumnsResponse)
-def detect_columns(request: DetectColumnsRequest):
+async def detect_columns(request: DetectColumnsRequest):
     df = pd.DataFrame(request.data)
-    suggestions = CSVParser.detect_columns(df, request.patterns)
+    suggestions = await asyncio.to_thread(CSVParser.detect_columns, df, request.patterns)
     return DetectColumnsResponse(suggestions=suggestions)

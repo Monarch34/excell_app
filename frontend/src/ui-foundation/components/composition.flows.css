@@ -757,12 +757,7 @@
   background: color-mix(in srgb, var(--surface-section) 76%, var(--surface-card));
 }
 
-.ui-upload-section-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-}
+/* .ui-upload-section-head uses .ui-flex-between */
 
 .ui-upload-section-title {
   font-size: var(--font-size-xs);

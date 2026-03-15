@@ -71,6 +71,12 @@
   margin-left: auto;
 }
 
+.ui-chart-preview-tags {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
 .ui-chart-card-body {
   display: grid;
   gap: var(--spacing-md);

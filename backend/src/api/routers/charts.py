@@ -1,11 +1,13 @@
 from __future__ import annotations
 
+import asyncio
 from dataclasses import asdict
 
 import pandas as pd
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 
-from src.api.runtime import analysis_run_store
+from src.api.analysis_run_store import AnalysisRunStore
+from src.api.dependencies import get_analysis_run_store
 from src.api.schemas import CalculateMetricsRequest, CalculateMetricsResponse, ChartMetrics
 from src.services.chart_metrics import calculate_chart_metrics
 from src.utils.logger import get_logger
@@ -15,14 +17,17 @@ router = APIRouter(prefix="/charts", tags=["charts"])
 
 
 @router.post("/metrics", response_model=CalculateMetricsResponse)
-def calculate_metrics(request: CalculateMetricsRequest):
+async def calculate_metrics(
+    request: CalculateMetricsRequest,
+    run_store: AnalysisRunStore = Depends(get_analysis_run_store),
+):
     """Calculate chart metrics for configured area charts with named outputs."""
     try:
         source_data = request.data
         if source_data is None:
             if not request.run_id:
                 raise ValueError("Either 'data' or 'run_id' must be provided")
-            source_data = analysis_run_store.get_processed_data(request.run_id)
+            source_data = run_store.get_processed_data(request.run_id)
             if source_data is None:
                 raise ValueError(f"Unknown or expired analysis run id: {request.run_id}")
 
@@ -33,7 +38,7 @@ def calculate_metrics(request: CalculateMetricsRequest):
             )
 
         df = pd.DataFrame(source_data)
-        metrics = calculate_chart_metrics(df, request.charts)
+        metrics = await asyncio.to_thread(calculate_chart_metrics, df, request.charts)
         logger.info(f"Calculated metrics for {len(metrics)} chart configurations")
         return CalculateMetricsResponse(
             metrics=[ChartMetrics(**asdict(metric)) for metric in metrics]

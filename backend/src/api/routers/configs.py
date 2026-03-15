@@ -4,17 +4,18 @@ import json
 import sqlite3
 from typing import Any
 
-from fastapi import APIRouter, HTTPException, Path
+from fastapi import APIRouter, Depends, HTTPException, Path
 from pydantic import BaseModel, Field, model_validator
 
+from src.api.dependencies import get_config_repository
 from src.api.schemas import (
     ConfigSaveResponse,
     SavedConfigDetail,
     SavedConfigSummary,
     StatusResponse,
 )
-from src.core.database import delete_config, get_config_by_id, get_configs, save_config
 from src.core.formulas.engine import FormulaEngine
+from src.infrastructure.config_repository import ConfigRepository
 from src.utils.constants import UPLOAD_CONFIG
 
 router = APIRouter(prefix="/configs", tags=["configs"])
@@ -44,42 +45,54 @@ def get_limits():
 
 
 @router.post("", response_model=ConfigSaveResponse)
-def create_config(request: ConfigSaveRequest):
+def create_config(
+    request: ConfigSaveRequest,
+    repo: ConfigRepository = Depends(get_config_repository),
+):
     try:
-        config_id = save_config(request.name, request.domain, request.config_data)
+        config_id = repo.save(request.name, request.domain, request.config_data)
         return ConfigSaveResponse(status="success", id=config_id)
     except sqlite3.IntegrityError as exc:
         raise HTTPException(status_code=409, detail=f"Configuration conflict: {exc}") from exc
     except (ValueError, TypeError) as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
-    except Exception as exc:
+    except sqlite3.Error as exc:
         raise HTTPException(status_code=500, detail="Failed to save configuration") from exc
 
 
 @router.get("", response_model=list[SavedConfigSummary])
-def list_configs(domain: str | None = None):
+def list_configs(
+    domain: str | None = None,
+    repo: ConfigRepository = Depends(get_config_repository),
+):
     try:
-        return get_configs(domain)
-    except Exception as exc:
+        return repo.list(domain)
+    except sqlite3.Error as exc:
         raise HTTPException(status_code=500, detail="Failed to retrieve configurations") from exc
 
 
 @router.get("/{config_id}", response_model=SavedConfigDetail)
-def fetch_config(config_id: int = Path(..., gt=0)):
-    config = get_config_by_id(config_id)
+def fetch_config(
+    config_id: int = Path(..., gt=0),
+    repo: ConfigRepository = Depends(get_config_repository),
+):
+    config = repo.get_by_id(config_id)
     if not config:
         raise HTTPException(status_code=404, detail="Configuration not found")
     return config
 
 
 @router.delete("/{config_id}", response_model=StatusResponse)
-def remove_config(config_id: int = Path(..., gt=0)):
+def remove_config(
+    config_id: int = Path(..., gt=0),
+    repo: ConfigRepository = Depends(get_config_repository),
+):
     try:
-        delete_config(config_id)
+        repo.delete(config_id)
         return StatusResponse(status="success")
     except ValueError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
     except (TypeError,) as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
-    except Exception as exc:
+    except sqlite3.Error as exc:
         raise HTTPException(status_code=500, detail="Failed to delete configuration") from exc

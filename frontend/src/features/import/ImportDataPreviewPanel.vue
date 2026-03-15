@@ -26,7 +26,7 @@ const emit = defineEmits<{
 
 <template>
   <div class="fade-in step-grid ui-clamp-gap-sm">
-    <AppSurfacePanel class="step-toolbar ui-import-file-toolbar">
+    <AppSurfacePanel class="step-toolbar ui-import-file-toolbar ui-flex-between">
       <div class="ui-import-file-meta">
         <i class="pi pi-file text-primary text-2xl"></i>
         <div>
@@ -49,7 +49,7 @@ const emit = defineEmits<{
       class="ui-surface-block ui-surface-block--compact"
     />
 
-    <AppSurfacePanel class="ui-import-reference-panel">
+    <AppSurfacePanel class="ui-import-reference-panel ui-flex-between">
       <div v-if="referenceRowUserSelected" class="ui-import-reference-selected">
         <i class="pi pi-map-marker ui-color-warning"></i>
         <Tag severity="warn" class="font-semibold">

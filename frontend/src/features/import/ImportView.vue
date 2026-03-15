@@ -41,29 +41,30 @@ function setDragging(value: boolean) {
   isDragging.value = value;
 }
 
-async function onFileSelect(event: Event): Promise<void> {
-  const target = event.target as HTMLInputElement;
-  const file = target.files?.[0];
+async function validateAndUpload(file: File | null | undefined): Promise<void> {
   if (!isCsvFile(file)) {
     if (file) {
       notifyWarn('Invalid file', 'Please select a CSV file (.csv).');
     }
-    target.value = '';
     return;
   }
   await handleUpload(file);
-  target.value = '';
+}
+
+async function onFileSelect(event: Event): Promise<void> {
+  const target = event.target as HTMLInputElement;
+  const file = target.files?.[0];
+  try {
+    await validateAndUpload(file);
+  } finally {
+    target.value = '';
+  }
 }
 
 async function onDrop(event: DragEvent): Promise<void> {
   isDragging.value = false;
   const file = event.dataTransfer?.files[0];
-  if (!file) return;
-  if (!isCsvFile(file)) {
-    notifyWarn('Invalid file', 'Please drop a CSV file (.csv).');
-    return;
-  }
-  await handleUpload(file);
+  await validateAndUpload(file);
 }
 
 function handleNextClick() {

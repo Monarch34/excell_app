@@ -7,12 +7,8 @@ from io import BytesIO
 import pandas as pd
 import pytest
 from openpyxl import load_workbook
-from src.services.xlsx_report_builder import (
-    AnalysisMetricSpec,
-    DerivedColumnSpec,
-    ParameterSpec,
-    XlsxReportBuilder,
-)
+from src.domain.report_models import AnalysisMetricSpec, DerivedColumnSpec, ParameterSpec
+from src.services.xlsx_report_builder import XlsxReportBuilder
 
 
 @pytest.fixture

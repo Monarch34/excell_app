@@ -117,9 +117,6 @@ function getColorText(color: string, isDefault = false): string {
             <i class="pi pi-chart-line text-primary"></i>
             <span class="font-bold ui-chart-card-title">{{ chart.title || 'Untitled Chart' }}</span>
           </div>
-          <div class="ui-chart-card-actions">
-            <Tag :value="getChartType(chart)" severity="info" class="text-xs" />
-          </div>
         </div>
 
         <div class="ui-chart-card-body">
@@ -128,7 +125,10 @@ function getColorText(color: string, isDefault = false): string {
               <i class="pi pi-eye text-color-secondary"></i>
               <span class="font-medium text-color">Preview</span>
             </div>
-            <Tag value="Configured" severity="success" class="text-xs" />
+            <div class="ui-chart-preview-tags">
+              <Tag :value="getChartType(chart)" severity="info" class="text-xs" />
+              <Tag value="Configured" severity="success" class="text-xs" />
+            </div>
           </div>
 
           <div class="cfg-chart-preview" aria-hidden="true">

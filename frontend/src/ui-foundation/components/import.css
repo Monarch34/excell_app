@@ -80,13 +80,7 @@
   font-size: 0.95rem;
 }
 
-.ui-import-file-toolbar,
-.ui-import-reference-panel {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-sm);
-}
+/* .ui-import-file-toolbar and .ui-import-reference-panel use .ui-flex-between for base layout */
 
 .ui-import-file-meta,
 .ui-import-reference-hint,

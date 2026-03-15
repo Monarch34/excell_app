@@ -29,24 +29,6 @@ const chartColumnsExist = computed(() => chartDataReady(props.chart, props.data)
           <span class="font-bold ui-chart-card-title">{{ chart.title || 'Untitled Chart' }}</span>
         </div>
         <div class="ui-chart-card-actions">
-          <Tag
-            v-if="chartColumnsExist"
-            value="Ready"
-            severity="success"
-            class="text-xs"
-          />
-          <Tag
-            v-else-if="!chart.xColumn || chart.yColumns.length === 0"
-            value="Needs X/Y"
-            severity="warning"
-            class="text-xs"
-          />
-          <Tag
-            v-else
-            value="Needs Analysis"
-            severity="info"
-            class="text-xs"
-          />
           <Button
             icon="pi pi-expand"
             severity="secondary"
@@ -66,6 +48,24 @@ const chartColumnsExist = computed(() => chartDataReady(props.chart, props.data)
             <i class="pi pi-eye text-color-secondary"></i>
             <span class="font-medium text-color">Preview</span>
           </div>
+          <Tag
+            v-if="chartColumnsExist"
+            value="Ready"
+            severity="success"
+            class="text-xs"
+          />
+          <Tag
+            v-else-if="!chart.xColumn || chart.yColumns.length === 0"
+            value="Needs X/Y"
+            severity="warning"
+            class="text-xs"
+          />
+          <Tag
+            v-else
+            value="Needs Analysis"
+            severity="info"
+            class="text-xs"
+          />
         </div>
 
         <div v-if="chartColumnsExist" class="ui-analysis-chart-renderer">

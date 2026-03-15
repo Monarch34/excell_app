@@ -192,12 +192,11 @@ def validate_dimensions(dims: SpecimenDimensions) -> None:
 
 | Exception | Use Case |
 |-----------|----------|
-| `MaterialTestError` | Base class for all errors |
+| `AppError` | Base class for all application errors |
 | `ValidationError` | Input validation failures |
-| `CSVParseError` | CSV parsing issues |
+| `FileFormatError` | File parsing / format issues (CSV, encoding) |
 | `ProcessingError` | Data processing failures |
-| `ChartGenerationError` | Chart creation failures |
-| `ExcelExportError` | Excel export failures |
+| `FormulaError` | Formula evaluation failures (syntax, cycles, unknown refs) |
 | `ConfigurationError` | Config/environment issues |
 
 ### Logging

@@ -10,10 +10,10 @@ defineProps<{
 
 <template>
   <AppSurfacePanel class="ui-metadata-panel">
-    <div class="ui-metadata-header">
-      <i class="pi pi-info-circle text-primary"></i>
+    <h3 class="ui-metadata-header">
+      <i class="pi pi-info-circle text-primary" aria-hidden="true"></i>
       <span class="font-bold text-color">Detected Metadata</span>
-    </div>
+    </h3>
 
     <div class="grid">
       <!-- Parameters -->

@@ -1,10 +1,13 @@
 from __future__ import annotations
 
+import asyncio
+
 import pandas as pd
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 
-from src.api.runtime import dataset_store
+from src.api.dataset_store import DatasetStore
+from src.api.dependencies import get_dataset_store, get_processing_service
 from src.api.schemas import (
     DerivedParameterDef,
     FormulaPreviewRequest,
@@ -15,7 +18,7 @@ from src.core.formulas.dependency import extract_references
 from src.core.formulas.engine import UserFormula
 from src.core.formulas.validator import FormulaValidator
 from src.services.formula_context import rewrite_formula_references
-from src.services.processing_service import processing_service
+from src.services.processing_service import ProcessingService
 
 router = APIRouter(prefix="/formulas", tags=["formulas"])
 
@@ -124,10 +127,14 @@ def _resolve_preview_dependency_closure(
 
 
 @router.post("/preview", response_model=FormulaPreviewResponse)
-def preview_formula(request: FormulaPreviewRequest):
+async def preview_formula(
+    request: FormulaPreviewRequest,
+    ds_store: DatasetStore = Depends(get_dataset_store),
+    proc_service: ProcessingService = Depends(get_processing_service),
+):
     """Evaluate formula on a data sample and return preview values using the main engine."""
     try:
-        source_df = dataset_store.get_dataframe(request.dataset_id)
+        source_df = ds_store.get_dataframe(request.dataset_id)
         if source_df is None:
             return FormulaPreviewResponse(
                 success=False,
@@ -219,7 +226,8 @@ def preview_formula(request: FormulaPreviewRequest):
             else {}
         )
 
-        processed_df, results = processing_service.process(
+        processed_df, results = await asyncio.to_thread(
+            proc_service.process,
             df=df,
             operations=[],
             formulas=formulas,

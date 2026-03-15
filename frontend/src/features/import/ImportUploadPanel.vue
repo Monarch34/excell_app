@@ -55,22 +55,20 @@ function deleteAppliedConfig(): void {
         </header>
 
         <section class="ui-upload-section">
-          <div class="ui-upload-section-head">
+          <div class="ui-upload-section-head ui-flex-between">
             <span class="ui-upload-section-title">Data file</span>
             <span class="ui-upload-section-note">CSV only</span>
           </div>
 
-          <button
-            type="button"
+          <label
             class="ui-upload-drop-zone"
             :class="{ 'ui-upload-drop-zone--active': isDragging }"
             aria-label="Upload CSV file by clicking, pressing Enter, or dragging and dropping"
             @dragover.prevent="emit('updateDragging', true)"
             @dragleave.prevent="emit('updateDragging', false)"
             @drop.prevent="emit('drop', $event)"
-            @click="triggerFileInput"
           >
-            <input ref="fileInput" type="file" class="hidden" name="dataset_csv_file" accept=".csv" @change="emit('fileSelect', $event)" />
+            <input ref="fileInput" type="file" class="ui-visually-hidden" name="dataset_csv_file" accept=".csv" @change="emit('fileSelect', $event)" />
 
             <div class="ui-upload-drop-body">
               <div class="ui-upload-icon-circle" aria-hidden="true">
@@ -90,7 +88,7 @@ function deleteAppliedConfig(): void {
 
               <span class="ui-upload-choose-btn"><i class="pi pi-upload" aria-hidden="true"></i>Choose CSV File</span>
             </div>
-          </button>
+          </label>
 
           <div class="ui-upload-capability-row">
             <div class="ui-muted-hint ui-upload-capability text-color-secondary text-sm">
@@ -105,7 +103,7 @@ function deleteAppliedConfig(): void {
         </section>
 
         <section class="ui-upload-section ui-upload-section--secondary">
-          <div class="ui-upload-section-head">
+          <div class="ui-upload-section-head ui-flex-between">
             <span class="ui-upload-section-title">Configuration</span>
             <span class="ui-upload-section-note">Optional</span>
           </div>
@@ -135,7 +133,7 @@ function deleteAppliedConfig(): void {
               </span>
             </div>
             <div class="ui-upload-config-actions">
-              <input ref="configFileInput" type="file" class="hidden" name="upload_config_file" accept=".json" @change="emit('configFileSelect', $event)" />
+              <input ref="configFileInput" type="file" class="ui-visually-hidden" name="upload_config_file" accept=".json" @change="emit('configFileSelect', $event)" />
               <Button
                 v-if="appliedConfigName"
                 :label="appliedConfigName"
@@ -191,6 +189,15 @@ function deleteAppliedConfig(): void {
                 <span class="font-bold ui-color-error-strong">Upload failed</span>
                 <span class="text-sm ui-color-error">{{ errorMessage }}</span>
               </div>
+              <Button
+                label="Retry"
+                icon="pi pi-refresh"
+                size="small"
+                severity="secondary"
+                outlined
+                class="ui-upload-retry-btn"
+                @click="triggerFileInput"
+              />
             </template>
             <template #idle>
               <div class="ui-upload-status-ready text-color-secondary text-sm">

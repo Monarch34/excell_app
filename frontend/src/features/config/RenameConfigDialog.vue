@@ -4,7 +4,8 @@ import Dialog from 'primevue/dialog';
 import InputText from 'primevue/inputtext';
 import AppField from '@/shared/components/ui/AppField.vue';
 
-const inputRef = ref<InstanceType<typeof InputText> | null>(null);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const inputRef = ref<any>(null);
 
 const props = defineProps<{
   visible: boolean;

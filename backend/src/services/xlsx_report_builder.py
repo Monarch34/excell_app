@@ -9,7 +9,6 @@ Sheets:
 """
 
 import logging
-from dataclasses import dataclass
 from io import BytesIO
 from typing import Any
 
@@ -20,6 +19,7 @@ from openpyxl.drawing.image import Image as XlImage
 from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.utils import get_column_letter
 
+from src.domain.report_models import AnalysisMetricSpec, DerivedColumnSpec, ParameterSpec
 from src.utils.helpers import normalize_hex_color as _normalize_fill_color
 from src.utils.styling import (
     DATA_HEADER_FILL,
@@ -35,41 +35,15 @@ from src.utils.styling import (
     UNITS_FONT,
 )
 
+# Re-export domain models for backward compatibility
+__all__ = [
+    "AnalysisMetricSpec",
+    "DerivedColumnSpec",
+    "ParameterSpec",
+    "XlsxReportBuilder",
+]
+
 logger = logging.getLogger(__name__)
-
-
-@dataclass
-class DerivedColumnSpec:
-    """Spec for a derived column in the report."""
-
-    name: str
-    formula: str
-    unit: str = ""
-    description: str = ""
-    dependencies: str = ""
-    enabled: bool = True
-
-
-@dataclass
-class AnalysisMetricSpec:
-    """Spec for an analysis metric in the report."""
-
-    chart_id: str
-    chart_title: str
-    name: str
-    value: float
-    unit: str = ""
-    x_column: str = ""
-    y_column: str = ""
-
-
-@dataclass
-class ParameterSpec:
-    """Spec for a parameter in the report."""
-
-    name: str
-    value: float
-    unit: str = ""
 
 
 class XlsxReportBuilder:
@@ -249,33 +223,50 @@ class XlsxReportBuilder:
                 cell.border = THIN_BORDER
                 cell.alignment = Alignment(horizontal="center")
 
-        # Row 4+: Data
-        for row_idx, (_, row) in enumerate(df.iterrows(), 4):
-            for col_idx, col_name in enumerate(write_columns, 1):
-                if col_name is None:
-                    # Separator column - green fill, empty
-                    cell = ws.cell(row=row_idx, column=col_idx, value="")
-                    cell.fill = separator_fill
-                else:
-                    value = row[col_name]
-                    if pd.isna(value):
-                        cell = ws.cell(row=row_idx, column=col_idx, value="")
-                    elif isinstance(value, int | np.integer):
-                        cell = ws.cell(row=row_idx, column=col_idx, value=int(value))
-                        cell.number_format = "0"
-                    elif isinstance(value, float | np.floating):
-                        float_val = float(value)
-                        if not np.isfinite(float_val):
-                            cell = ws.cell(row=row_idx, column=col_idx, value="")
-                        else:
-                            cell = ws.cell(row=row_idx, column=col_idx, value=float_val)
-                            cell.number_format = "0.000000"
-                    else:
-                        cell = ws.cell(row=row_idx, column=col_idx, value=str(value))
+        # Row 4+: Data — extract raw numpy arrays once to avoid per-row Series overhead
+        col_arrays: dict[str, np.ndarray] = {
+            col_name: df[col_name].to_numpy()
+            for col_name in df.columns
+        }
+        nrows = len(df)
+        separator_col_indices = [
+            ci for ci, cn in enumerate(write_columns, 1) if cn is None
+        ]
+        data_col_entries = [
+            (ci, cn, col_arrays[cn], column_group_fills.get(cn))
+            for ci, cn in enumerate(write_columns, 1)
+            if cn is not None
+        ]
 
-                    group_fill = column_group_fills.get(col_name)
-                    if group_fill:
-                        cell.fill = group_fill
+        for row_offset in range(nrows):
+            row_idx = row_offset + 4
+
+            for col_idx in separator_col_indices:
+                cell = ws.cell(row=row_idx, column=col_idx, value="")
+                cell.fill = separator_fill
+
+            for col_idx, col_name, arr, group_fill in data_col_entries:
+                value = arr[row_offset]
+                if value is None or (isinstance(value, float) and np.isnan(value)):
+                    cell = ws.cell(row=row_idx, column=col_idx, value="")
+                elif isinstance(value, np.integer):
+                    cell = ws.cell(row=row_idx, column=col_idx, value=int(value))
+                    cell.number_format = "0"
+                elif isinstance(value, int):
+                    cell = ws.cell(row=row_idx, column=col_idx, value=value)
+                    cell.number_format = "0"
+                elif isinstance(value, float | np.floating):
+                    float_val = float(value)
+                    if not np.isfinite(float_val):
+                        cell = ws.cell(row=row_idx, column=col_idx, value="")
+                    else:
+                        cell = ws.cell(row=row_idx, column=col_idx, value=float_val)
+                        cell.number_format = "0.000000"
+                else:
+                    cell = ws.cell(row=row_idx, column=col_idx, value=str(value))
+
+                if group_fill:
+                    cell.fill = group_fill
 
         # Auto-width columns
         for col_idx, col_name in enumerate(write_columns, 1):

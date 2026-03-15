@@ -429,3 +429,130 @@ class TestReportsXlsx:
         body = resp.json()
         assert "detail" in body
         assert body.get("code") == "REQUEST_VALIDATION_ERROR"
+
+
+class TestDetectColumns:
+    def test_detect_columns_returns_200(self, client):
+        data = [
+            {"Time": 0.0, "Load": 10.0, "Extension": 0.1},
+            {"Time": 1.0, "Load": 20.0, "Extension": 0.2},
+        ]
+        resp = client.post("/api/v3/datasets/detect-columns", json={"data": data})
+        assert resp.status_code == 200
+
+    def test_detect_columns_response_shape(self, client):
+        data = [
+            {"Time": 0.0, "Load": 10.0, "Extension": 0.1},
+            {"Time": 1.0, "Load": 20.0, "Extension": 0.2},
+        ]
+        body = client.post("/api/v3/datasets/detect-columns", json={"data": data}).json()
+        assert "suggestions" in body
+        assert isinstance(body["suggestions"], dict)
+
+    def test_detect_columns_matches_with_patterns(self, client):
+        data = [
+            {"Time": 0.0, "Load": 10.0, "Extension": 0.1},
+            {"Time": 1.0, "Load": 20.0, "Extension": 0.2},
+        ]
+        patterns = {"time": ["time"], "force": ["load"]}
+        body = client.post(
+            "/api/v3/datasets/detect-columns",
+            json={"data": data, "patterns": patterns},
+        ).json()
+        suggestions = body["suggestions"]
+        assert suggestions.get("time") == "Time"
+        assert suggestions.get("force") == "Load"
+
+    def test_detect_columns_empty_data(self, client):
+        resp = client.post("/api/v3/datasets/detect-columns", json={"data": []})
+        assert resp.status_code == 200
+        assert resp.json()["suggestions"] == {}
+
+    def test_detect_columns_with_patterns(self, client):
+        data = [
+            {"MyTime": 0.0, "Force": 10.0},
+            {"MyTime": 1.0, "Force": 20.0},
+        ]
+        patterns = {"time": ["mytime", "elapsed"]}
+        resp = client.post(
+            "/api/v3/datasets/detect-columns",
+            json={"data": data, "patterns": patterns},
+        )
+        assert resp.status_code == 200
+
+
+class TestFormulaValidate:
+    def test_valid_formula(self, client):
+        resp = client.post(
+            "/api/v3/formulas/validate",
+            json={
+                "formula": "[Load] / [Extension]",
+                "available_columns": ["Load", "Extension"],
+            },
+        )
+        assert resp.status_code == 200
+        body = resp.json()
+        assert body["valid"] is True
+        assert body["errors"] == []
+        assert set(body["referenced_columns"]) == {"Load", "Extension"}
+
+    def test_unknown_column_reports_error(self, client):
+        resp = client.post(
+            "/api/v3/formulas/validate",
+            json={
+                "formula": "[Missing]",
+                "available_columns": ["Load"],
+            },
+        )
+        assert resp.status_code == 200
+        body = resp.json()
+        assert body["valid"] is False
+        assert len(body["errors"]) > 0
+
+    def test_forbidden_pattern_reports_error(self, client):
+        resp = client.post(
+            "/api/v3/formulas/validate",
+            json={
+                "formula": "import os",
+                "available_columns": [],
+            },
+        )
+        assert resp.status_code == 200
+        body = resp.json()
+        assert body["valid"] is False
+
+    def test_empty_formula_reports_error(self, client):
+        resp = client.post(
+            "/api/v3/formulas/validate",
+            json={"formula": "", "available_columns": []},
+        )
+        assert resp.status_code == 200
+        body = resp.json()
+        assert body["valid"] is False
+
+    def test_response_includes_referenced_columns(self, client):
+        resp = client.post(
+            "/api/v3/formulas/validate",
+            json={
+                "formula": "[A] + [B]",
+                "available_columns": ["A", "B"],
+            },
+        )
+        body = resp.json()
+        assert set(body["referenced_columns"]) == {"A", "B"}
+
+    def test_missing_formula_returns_422(self, client):
+        resp = client.post("/api/v3/formulas/validate", json={})
+        assert resp.status_code == 422
+
+    def test_parameters_accepted(self, client):
+        resp = client.post(
+            "/api/v3/formulas/validate",
+            json={
+                "formula": "[Load] * 2",
+                "available_columns": ["Load"],
+                "available_parameters": ["factor"],
+            },
+        )
+        assert resp.status_code == 200
+        assert resp.json()["valid"] is True

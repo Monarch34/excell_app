@@ -1,11 +1,15 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, HTTPException
+import asyncio
+
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import Response
 
-from src.api.runtime import build_report_compiler, dataset_store
+from src.api.dataset_store import DatasetStore
+from src.api.dependencies import get_dataset_store, get_report_compiler
 from src.api.schemas import ExportRequest
 from src.api.validators import validate_parameters
+from src.services.report_compiler import ReportCompiler
 from src.services.xlsx_report_builder import XlsxReportBuilder
 from src.utils.logger import get_logger
 
@@ -14,14 +18,17 @@ router = APIRouter(prefix="/reports", tags=["reports"])
 
 
 @router.post("/xlsx")
-def export_xlsx(request: ExportRequest):
+async def export_xlsx(
+    request: ExportRequest,
+    ds_store: DatasetStore = Depends(get_dataset_store),
+    compiler: ReportCompiler = Depends(get_report_compiler),
+):
     """Generate the XLSX report."""
     logger.info(f"Report export initiated: {request.project_name}")
     validate_parameters(request.parameters)
-    compiler = build_report_compiler()
 
     try:
-        source_df = dataset_store.get_dataframe(request.dataset_id)
+        source_df = ds_store.get_dataframe(request.dataset_id)
         if source_df is None:
             raise HTTPException(
                 status_code=410,
@@ -31,9 +38,10 @@ def export_xlsx(request: ExportRequest):
                 },
             )
 
-        compiled = compiler.compile(request, source_df=source_df)
+        compiled = await asyncio.to_thread(compiler.compile, request, source_df=source_df)
         builder = XlsxReportBuilder()
-        output = builder.build(
+        output = await asyncio.to_thread(
+            builder.build,
             df=compiled.export_df,
             column_units=compiled.column_units,
             derived_columns=compiled.derived_specs,
