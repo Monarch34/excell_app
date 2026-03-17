@@ -1,8 +1,4 @@
 <script setup lang="ts">
-// TODO: Unsaved formula edits are lost on navigation. To fix:
-//  1. Wire `useDirtyState` composable here
-//  2. Expose `isDirty` from FormulaEditor
-//  3. Add `onBeforeRouteLeave` guard that prompts when dirty
 import { ref, computed, watch } from 'vue';
 import { useDatasetStore } from '@/stores/dataset';
 import { useDerivedColumnsStore } from '@/stores/derivedColumns';

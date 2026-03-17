@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import time
 import uuid
 from dataclasses import dataclass
 from typing import Any
@@ -31,7 +32,7 @@ class AnalysisRunStore(BaseStore[AnalysisRunSnapshot]):
             processed_data=[dict(row) for row in processed_data],
             results=results,
             project_name=project_name,
-            created_at=__import__("time").time(),
+            created_at=time.time(),
         )
         self._put(snapshot.run_id, snapshot)
         return snapshot

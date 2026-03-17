@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import time
 import uuid
 from dataclasses import dataclass
 
@@ -22,7 +23,7 @@ class DatasetStore(BaseStore[DatasetSnapshot]):
         snapshot = DatasetSnapshot(
             dataset_id=uuid.uuid4().hex,
             dataframe=dataframe.copy(deep=True),
-            created_at=__import__("time").time(),
+            created_at=time.time(),
         )
         self._put(snapshot.dataset_id, snapshot)
         return snapshot

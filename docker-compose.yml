@@ -3,6 +3,7 @@ services:
     build:
       context: ./backend
     init: true
+    restart: unless-stopped
     ports:
       - "8001:8000"
     environment:
@@ -22,6 +23,7 @@ services:
     build:
       context: ./frontend
     init: true
+    restart: unless-stopped
     ports:
       - "80:80"
     profiles:
