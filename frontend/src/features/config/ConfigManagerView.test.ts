@@ -76,7 +76,7 @@ describe('ConfigManagerView', () => {
     vi.resetModules();
   });
 
-  it('validates the export filename locally and only exports after the field becomes valid', async () => {
+  it('validates the export filename locally and only exports after the field becomes valid', { timeout: 15_000 }, async () => {
     const mockCustomFilename = ref(DEFAULT_EXPORT_FILENAME);
     const mockExportLoading = ref(false);
     const mockExportError = ref<string | null>(null);

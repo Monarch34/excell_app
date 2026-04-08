@@ -8,7 +8,10 @@ def test_health_check():
     """Verify the API is running."""
     response = client.get("/api/v3/health")
     assert response.status_code == 200
-    assert response.json() == {"status": "ok", "version": "3.0.0"}
+    body = response.json()
+    assert body["status"] == "ok"
+    assert body["version"] == "3.0.0"
+    assert body["db_connected"] is True
 
 
 def test_e2e_process_flow():

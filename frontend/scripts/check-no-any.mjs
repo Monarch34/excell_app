@@ -9,7 +9,13 @@ const TARGET_DIRS = ['domain', 'types', 'services'];
 const EXCLUDED_PREFIXES = [join(SRC, 'types', 'generated')];
 
 async function listTsFiles(dir) {
-  const entries = await readdir(dir, { withFileTypes: true });
+  let entries;
+  try {
+    entries = await readdir(dir, { withFileTypes: true });
+  } catch (err) {
+    if (err.code === 'ENOENT') return [];
+    throw err;
+  }
   const files = [];
 
   for (const entry of entries) {

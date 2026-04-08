@@ -247,12 +247,8 @@ nul
 # =============================================================================
 # [DOCUMENTATION — ARCHIVE & INTERNAL] 
 # =============================================================================
-# Don't expose internal planning docs / old API snapshots
-docs/archive/
-docs/*
-!docs/openapi.json
-!docs/*.md
-!docs/**/*.md
+# Generated OpenAPI spec is tracked in backend/
+!backend/openapi.json
 
 # =============================================================================
 # [MISC PROJECT-SPECIFIC]

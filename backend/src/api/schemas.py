@@ -305,6 +305,7 @@ class ErrorResponse(BaseModel):
 class HealthResponse(BaseModel):
     status: str
     version: str
+    db_connected: bool = True
 
 
 class UploadResponse(BaseModel):

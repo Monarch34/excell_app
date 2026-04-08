@@ -57,6 +57,10 @@ def init_db():
         logger.error("Failed to connect to database at %s: %s", DB_PATH, exc)
         raise RuntimeError(f"Cannot open database at {DB_PATH}: {exc}") from exc
     try:
+        # Enable WAL mode for better concurrent read performance
+        conn.execute("PRAGMA journal_mode=WAL")
+        conn.execute("PRAGMA busy_timeout=5000")
+
         cursor = conn.cursor()
 
         # Recover from a previous crash that left _configs_old behind.

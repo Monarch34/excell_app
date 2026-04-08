@@ -8,7 +8,13 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
 from src.api.common import get_request_id
-from src.core.exceptions import FileFormatError, ProcessingError, ValidationError
+from src.core.exceptions import (
+    ConfigurationError,
+    FileFormatError,
+    FormulaError,
+    ProcessingError,
+    ValidationError,
+)
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -59,6 +65,30 @@ def register_error_handlers(app) -> None:
             content={
                 "detail": exc.message,
                 "code": "PROCESSING_ERROR",
+                "request_id": get_request_id(request),
+            },
+        )
+
+    @app.exception_handler(FormulaError)
+    async def formula_error_handler(request, exc: FormulaError):
+        logger.warning(f"Formula error: {exc.message}")
+        return JSONResponse(
+            status_code=422,
+            content={
+                "detail": exc.message,
+                "code": "FORMULA_ERROR",
+                "request_id": get_request_id(request),
+            },
+        )
+
+    @app.exception_handler(ConfigurationError)
+    async def configuration_error_handler(request, exc: ConfigurationError):
+        logger.error(f"Configuration error: {exc.message}")
+        return JSONResponse(
+            status_code=500,
+            content={
+                "detail": exc.message,
+                "code": "CONFIGURATION_ERROR",
                 "request_id": get_request_id(request),
             },
         )

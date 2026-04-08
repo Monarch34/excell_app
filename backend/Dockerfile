@@ -8,18 +8,17 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Non-root user for production
-RUN adduser --disabled-password --no-create-home appuser
+RUN adduser --disabled-password --no-create-home appuser \
+    && mkdir -p /app/data \
+    && chown appuser:appuser /app/data
 USER appuser
 
-# Set environment variables
 ENV PYTHONPATH=/app
-ENV ANALYSIS_DB_PATH=/app/analysis_app.db
-ENV LOG_TO_FILE=false
+ENV ANALYSIS_DB_PATH=/app/data/analysis_app.db
 
-# Expose port
 EXPOSE 8000
 
-HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 --start-period=10s \
   CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v3/health')"
 
 CMD ["uvicorn", "src.api.server:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2"]

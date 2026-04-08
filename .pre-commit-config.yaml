@@ -30,7 +30,7 @@ repos:
         entry: python backend/scripts/sync_api_contract.py --check
         language: system
         pass_filenames: false
-        files: ^(backend/src/api/.*\.py|backend/scripts/sync_api_contract.py|docs/openapi.json|frontend/src/types/generated/openapi.ts)$
+        files: ^(backend/src/api/.*\.py|backend/scripts/sync_api_contract.py|backend/openapi.json|frontend/src/shared/types/generated/openapi.ts)$
         stages: [pre-push]
 
       - id: backend-tests-smoke

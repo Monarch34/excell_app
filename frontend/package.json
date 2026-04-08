@@ -19,7 +19,7 @@
         "ui:guard": "node scripts/ui-guard.mjs",
         "check:no-any": "node scripts/check-no-any.mjs",
         "visual:baseline": "node tests/visual/print-guide.mjs",
-        "check": "npm run lint && npm run type-check && npm run test && npm run build"
+        "check": "npm run lint && npm run type-check && npm run test -- --run && npm run build"
     },
     "dependencies": {
         "@primevue/themes": "^4.2.5",
